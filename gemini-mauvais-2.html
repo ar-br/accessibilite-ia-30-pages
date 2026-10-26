@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercice - Mauvaise Accessibilité</title>
+  <style>
+    /* Suppression totale du focus visible */
+    * {
+      outline: none !important;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+
+    /* Navigation non accessible */
+    .header {
+      background-color: #222;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .fake-link {
+      cursor: pointer;
+      color: #aaa;
+    }
+
+    .burger {
+      display: none;
+      cursor: pointer;
+      font-size: 24px;
+    }
+
+    .mobile-menu {
+      display: none;
+      background-color: #222;
+      padding: 10px 20px;
+    }
+
+    .mobile-menu .fake-link {
+      padding: 8px 0;
+      color: #aaa;
+    }
+
+    /* Formulaire */
+    .form-container {
+      background-color: white;
+      padding: 25px;
+      margin-top: 25px;
+      border: 1px solid #ccc;
+    }
+
+    .field-group {
+      margin-bottom: 15px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+
+    /* Faux bouton cliquable uniquement à la souris */
+    .fake-button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    #confirmation {
+      margin-top: 15px;
+      font-weight: bold;
+      color: green;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .burger {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menu de navigation avec des div et un ordre de tabulation chaotique -->
+  <div class="header">
+    <div tabindex="12">MonSite</div>
+    <div class="burger" onclick="toggleMenu()" tabindex="5">&#9776;</div>
+    <div class="nav-links">
+      <div class="fake-link" onclick="alert('Accueil')" tabindex="20">Accueil</div>
+      <div class="fake-link" onclick="alert('Services')" tabindex="3">Services</div>
+      <div class="fake-link" onclick="alert('À propos')" tabindex="18">À propos</div>
+      <div class="fake-link" onclick="alert('Contact')" tabindex="1">Contact</div>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobMenu">
+    <div class="fake-link" onclick="alert('Accueil')">Accueil</div>
+    <div class="fake-link" onclick="alert('Services')">Services</div>
+    <div class="fake-link" onclick="alert('À propos')">À propos</div>
+    <div class="fake-link" onclick="alert('Contact')">Contact</div>
+  </div>
+
+  <!-- Formulaire de contact avec des labels non reliés et des tabindex anarchiques -->
+  <div class="form-container">
+    <h2>Contactez-nous</h2>
+
+    <div class="field-group" tabindex="8">
+      <label>Nom :</label><br>
+      <input type="text" id="nom">
+    </div>
+
+    <div class="field-group" tabindex="2">
+      <span>Prénom :</span><br>
+      <input type="text" id="prenom">
+    </div>
+
+    <div class="field-group" tabindex="14">
+      E-mail :<br>
+      <input type="text" id="email">
+    </div>
+
+    <div class="field-group" tabindex="4">
+      Téléphone :<br>
+      <input type="text" id="telephone">
+    </div>
+
+    <div class="field-group" tabindex="11">
+      Motif de contact :<br>
+      <input type="radio" name="motif"> Devis
+      <input type="radio" name="motif"> Support technique
+      <input type="radio" name="motif"> Autre
+    </div>
+
+    <div class="field-group" tabindex="6">
+      Message :<br>
+      <textarea id="message"></textarea>
+    </div>
+
+    <div class="field-group" tabindex="19">
+      <input type="checkbox" id="conditions"> J'accepte les conditions générales
+    </div>
+
+    <!-- Bouton d'envoi transformé en div cliquable -->
+    <div class="fake-button" onclick="envoyerFormulaire()" tabindex="9">Envoyer le message</div>
+
+    <!-- Message de confirmation sans aria-live -->
+    <div id="confirmation"></div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('mobMenu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function envoyerFormulaire() {
+      const nom = document.getElementById('nom').value;
+      const prenom = document.getElementById('prenom').value;
+      const confirmationDiv = document.getElementById('confirmation');
+      
+      confirmationDiv.innerText = "Merci " + prenom + " " + nom + ", votre message a bien été envoyé !";
+    }
+  </script>
+
+</body>
+</html>

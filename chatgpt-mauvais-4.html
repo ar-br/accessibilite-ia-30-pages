@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Exercice accessibilité</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #172554;
+            color: white;
+            padding: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .burger {
+            display: none;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .intro h1 {
+            color: #172554;
+            margin-bottom: 10px;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .radio-option input {
+            width: auto;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-option input {
+            width: auto;
+        }
+
+        .submit-button {
+            background: #2563eb;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            user-select: none;
+        }
+
+        .submit-button:hover {
+            background: #1d4ed8;
+        }
+
+        .confirmation {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 6px;
+        }
+
+        footer {
+            text-align: center;
+            background: #172554;
+            color: white;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 650px) {
+            .burger {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 75px;
+                left: 0;
+                width: 100%;
+                padding: 20px;
+                background: #172554;
+                gap: 15px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            main {
+                margin: 20px auto;
+            }
+
+            .contact-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="logo">MonSite</div>
+
+            <div class="burger" onclick="toggleMenu()">
+                ☰
+            </div>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="#accueil" tabindex="4">Accueil</a>
+                <a href="#services" tabindex="2">Services</a>
+                <a href="#apropos" tabindex="5">À propos</a>
+                <a href="#contact" tabindex="1">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="intro" id="accueil">
+            <h1>Contactez-nous</h1>
+            <p>Une question ou un projet ? Envoyez-nous un message.</p>
+        </section>
+
+        <section class="contact-form" id="contact">
+            <h2>Formulaire de contact</h2>
+            <br>
+
+            <form id="contactForm">
+
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" name="nom" placeholder="Votre nom" tabindex="8" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="prenom-incorrect">Prénom</label>
+                    <input type="text" name="prenom" id="prenom" placeholder="Votre prénom" tabindex="3" required>
+                </div>
+
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" name="email" placeholder="exemple@email.com" tabindex="10" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Téléphone</label>
+                    <input type="tel" name="telephone" placeholder="Votre numéro de téléphone" tabindex="6">
+                </div>
+
+                <div class="form-group">
+                    <p><strong>Motif de contact</strong></p>
+
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="motif" value="information" id="information" required>
+                            <label for="information">Demande d'information</label>
+                        </div>
+
+                        <div class="radio-option">
+                            <input type="radio" name="motif" value="devis" id="devis">
+                            <label for="devis">Demande de devis</label>
+                        </div>
+
+                        <div class="radio-option">
+                            <input type="radio" name="motif" value="autre" id="autre">
+                            <label for="autre">Autre demande</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Votre message</label>
+                    <textarea name="message" rows="5" placeholder="Écrivez votre message ici..." tabindex="9" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="conditions" name="conditions" required tabindex="7">
+                        <label for="conditions">J'accepte les conditions d'utilisation</label>
+                    </div>
+                </div>
+
+                <div class="submit-button" onclick="envoyerFormulaire()" tabindex="11">
+                    Envoyer le message
+                </div>
+
+                <div class="confirmation" id="confirmation">
+                    Votre message a été envoyé avec succès !
+                </div>
+
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 MonSite - Tous droits réservés</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById("navLinks");
+            menu.classList.toggle("active");
+        }
+
+        function envoyerFormulaire() {
+            const form = document.getElementById("contactForm");
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            document.getElementById("confirmation").style.display = "block";
+
+            form.reset();
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice - Mauvaise Accessibilité</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Supprime l'indicateur de focus pour la navigation au clavier */
+        *:focus {
+            outline: none !important;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+            padding-bottom: 50px;
+        }
+
+        /* En-tête et Navigation */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Fake links utilisables uniquement à la souris */
+        .fake-link {
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .fake-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Icône burger uniquement visuelle sans support clavier/screen reader */
+        .burger-icon {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Conteneur principal */
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #2c3e50;
+        }
+
+        /* Formulaire et champs */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .field-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* Faux bouton d'envoi */
+        .fake-btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+            user-select: none;
+        }
+
+        .fake-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Zone de confirmation */
+        #confirmation-message {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 55px;
+                right: 0;
+                background-color: #2c3e50;
+                width: 100%;
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .burger-icon {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">MonSite</div>
+        
+        <!-- Faux lien burger sans aria-label, sans support clavier, événement uniquement mousedown -->
+        <div class="burger-icon" id="burger-menu">
+            &#9776;
+        </div>
+
+        <!-- Fake links utilisant tabindex positif perturbant la navigation globale -->
+        <nav class="nav-links" id="nav-menu">
+            <div class="fake-link" tabindex="5" onclick="alert('Accueil')">Accueil</div>
+            <div class="fake-link" tabindex="3" onclick="alert('Services')">Services</div>
+            <div class="fake-link" tabindex="4" onclick="alert('À propos')">À propos</div>
+            <div class="fake-link" tabindex="2" onclick="alert('Contact')">Contact</div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Formulaire de Contact</h1>
+
+        <form onsubmit="return false;">
+            <!-- Champ 1 : Label non relié au champ (for incorrect) et tabindex chaotique -->
+            <div class="form-group">
+                <label for="champ_nom_invalide" class="field-title">Nom :</label>
+                <input type="text" id="input_nom" tabindex="10" placeholder="Entrez votre nom">
+            </div>
+
+            <!-- Champ 2 : Aucun label, uniquement un placeholder -->
+            <div class="form-group">
+                <input type="text" id="input_prenom" tabindex="8" placeholder="Prénom">
+            </div>
+
+            <!-- Champ 3 : Label simple sans attribut for ni lien avec l'input -->
+            <div class="form-group">
+                <span class="field-title">Adresse E-mail :</span>
+                <input type="email" id="input_email" tabindex="1" placeholder="exemple@domaine.com">
+            </div>
+
+            <!-- Champ 4 : Label non associé -->
+            <div class="form-group">
+                <label class="field-title">Téléphone :</label>
+                <input type="text" id="input_tel" tabindex="9">
+            </div>
+
+            <!-- Motif de contact : Boutons radio sans fieldset/legend ni labels reliés -->
+            <div class="form-group">
+                <span class="field-title">Motif de contact :</span>
+                <div class="radio-group">
+                    <div>
+                        <input type="radio" name="motif" value="information" tabindex="6">
+                        <span>Information</span>
+                    </div>
+                    <div>
+                        <input type="radio" name="motif" value="support" tabindex="7">
+                        <span>Support</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Champ Message : Textarea sans label -->
+            <div class="form-group">
+                <span class="field-title">Message :</span>
+                <textarea id="input_message" rows="4" tabindex="11"></textarea>
+            </div>
+
+            <!-- Conditions : Checkbox avec texte séparé -->
+            <div class="checkbox-group">
+                <input type="checkbox" id="check_cgu" tabindex="12">
+                <span>J'accepte les conditions d'utilisation</span>
+            </div>
+
+            <!-- Bouton d'envoi : Faux bouton (div), réagit uniquement au click/mousedown, aucun rôle, pas de focus, pas de submit -->
+            <div class="fake-btn" id="btn-submit">
+                Envoyer le message
+            </div>
+        </form>
+
+        <!-- Message de confirmation sans aria-live -->
+        <div id="confirmation-message">
+            Votre message a bien été envoyé avec succès !
+        </div>
+    </div>
+
+    <script>
+        // Gestion du menu mobile accessible uniquement à la souris (mousedown)
+        const burgerMenu = document.getElementById('burger-menu');
+        const navMenu = document.getElementById('nav-menu');
+
+        burgerMenu.addEventListener('mousedown', function(e) {
+            navMenu.classList.toggle('open');
+        });
+
+        // Validation et soumission déclenchées uniquement via un clic de souris sur la div
+        const btnSubmit = document.getElementById('btn-submit');
+        const confirmationMessage = document.getElementById('confirmation-message');
+
+        btnSubmit.addEventListener('click', function(e) {
+            // Affichage dynamique sans notification pour lecteur d'écran (manque aria-live)
+            confirmationMessage.style.display = 'block';
+        });
+    </script>
+
+</body>
+</html>
+

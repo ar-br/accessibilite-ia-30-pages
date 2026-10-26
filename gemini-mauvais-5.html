@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercice - Mauvaise Accessibilité</title>
+    <style>
+        /* Supprime l'indicateur visuel de focus au clavier */
+        * {
+            outline: none !important;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* En-tête et Navigation */
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Liens sous forme de div cliquables */
+        .nav-item {
+            color: #fff;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .nav-item:hover {
+            background-color: #555;
+        }
+
+        /* Icône burger pour mobile (image/icône sans texte ni aria-label) */
+        .burger-icon {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* Layout Formulaire */
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        /* Label volontairement déconnecté du champ */
+        .form-label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+        }
+
+        /* Bouton personnalisé (Div non-accessible) */
+        .custom-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 3px;
+            text-align: center;
+            user-select: none;
+        }
+
+        .custom-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Message de confirmation caché par défaut */
+        #confirmation-message {
+            display: none;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        @media (max-width: 600px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #333;
+                position: absolute;
+                top: 50px;
+                left: 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .burger-icon {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">MonSite</div>
+        
+        <!-- Icône burger sans aria-label, ni attributs d'état, non utilisable au clavier -->
+        <div class="burger-icon" onclick="toggleMenu()">☰</div>
+        
+        <!-- Navigation avec des div sans role="link" ni navigation au clavier -->
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item" onclick="location.href='#accueil'">Accueil</div>
+            <div class="nav-item" onclick="location.href='#services'">Services</div>
+            <div class="nav-item" onclick="location.href='#apropos'">À propos</div>
+            <div class="nav-item" onclick="location.href='#contact'">Contact</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Formulaire de contact</h2>
+        
+        <!-- Formulaire avec problème de tabindex et absence/mauvaise liaison des labels -->
+        <form id="contactForm" onsubmit="return false;">
+            
+            <!-- Champ Nom : pas de label du tout -->
+            <div class="form-group">
+                <input type="text" placeholder="Nom" id="input-nom" tabindex="5">
+            </div>
+
+            <!-- Champ Prénom : label sans attribut for, pas relié au champ -->
+            <div class="form-group">
+                <span class="form-label">Prénom :</span>
+                <input type="text" id="prenom" tabindex="2">
+            </div>
+
+            <!-- Champ E-mail : label pointe sur un mauvais id -->
+            <div class="form-group">
+                <label for="wrong-email-id" class="form-label">E-mail :</label>
+                <input type="email" id="email-field" tabindex="1">
+            </div>
+
+            <!-- Champ Téléphone : pas de label -->
+            <div class="form-group">
+                <input type="text" placeholder="Téléphone" id="phone" tabindex="4">
+            </div>
+
+            <!-- Boutons radio : pas de fieldset ni legend, labels non associés -->
+            <div class="form-group">
+                <span class="form-label">Motif du contact :</span><br>
+                <input type="radio" name="motif" value="information" tabindex="3"> Information<br>
+                <input type="radio" name="motif" value="support"> Support technique<br>
+                <input type="radio" name="motif" value="autre"> Autre
+            </div>
+
+            <!-- Champ Message : label non associé -->
+            <div class="form-group">
+                <span class="form-label">Votre message :</span>
+                <textarea rows="4" id="message-text"></textarea>
+            </div>
+
+            <!-- Case à cocher : texte non associé à la checkbox -->
+            <div class="form-group">
+                <input type="checkbox" id="cgu-check">
+                <span>J'accepte les conditions générales d'utilisation</span>
+            </div>
+
+            <!-- Bouton d'envoi sous forme de DIV : inaccessible au clavier (Pas d'événement Keydown/Enter) -->
+            <div class="custom-button" onclick="submitForm()">
+                Envoyer le message
+            </div>
+
+        </form>
+
+        <!-- Dynamic Message Container : Manque aria-live="polite" ou aria-live="assertive" -->
+        <div id="confirmation-message">
+            Merci ! Votre message a bien été envoyé avec succès.
+        </div>
+    </div>
+
+    <script>
+        // Gestion du menu burger : déclenché uniquement par le clic de la souris
+        function toggleMenu() {
+            var nav = document.getElementById("navLinks");
+            if (nav.className === "nav-links") {
+                nav.className += " active";
+            } else {
+                nav.className = "nav-links";
+            }
+        }
+
+        // Soumission dynamique : accessible uniquement au clic de la souris
+        function submitForm() {
+            var confirmBox = document.getElementById("confirmation-message");
+            confirmBox.style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
+

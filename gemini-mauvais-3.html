@@ -1,0 +1,203 @@
+
+        .low-contrast-placeholder::placeholder {
+            color: #e0e0e0;
+        }
+
+        .bad-btn-hover:hover {
+            background-color: #e2e8f0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-700 font-sans min-h-screen flex flex-col">
+
+    <!-- Bannière d'avertissement pédagogique -->
+    <div class="bg-red-600 text-white p-3 text-center text-sm font-bold">
+        ⚠️ EXERCICE SCOLAIRE : Ce site est un contre-exemple volontaire d'accessibilité (A11y Bad Practices). Ne pas reproduire en production !
+    </div>
+
+    <!-- EN-TÊTE ET NAVIGATION -->
+    <!-- Anti-pattern A11y : Pas d'élément <header> ni <nav>, pas de repère LandMark ARIA -->
+    <div class="bg-white shadow-md border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            
+            <!-- Logo non sémantique -->
+            <div class="text-xl font-extrabold text-gray-400">MonEntreprise</div>
+
+            <!-- MENU DESKTOP -->
+            <!-- Anti-pattern A11y : Des <div> cliquables à la place de vrais liens <a> ou boutons <button>. Pas de keyboard focus, pas de tabindex. -->
+            <div class="hidden md:flex space-x-6">
+                <!-- Tabindex chaotique imposé avec des valeurs positives -->
+                <div class="link-item px-3 py-2 text-gray-300 font-medium bad-btn-hover rounded" tabindex="10" onclick="navigate('Accueil')">Accueil</div>
+                <div class="link-item px-3 py-2 text-gray-300 font-medium bad-btn-hover rounded" tabindex="5" onclick="navigate('Services')">Services</div>
+                <div class="link-item px-3 py-2 text-gray-300 font-medium bad-btn-hover rounded" tabindex="15" onclick="navigate('À propos')">À propos</div>
+                <div class="link-item px-3 py-2 text-gray-300 font-medium bad-btn-hover rounded" tabindex="1" onclick="navigate('Contact')">Contact</div>
+            </div>
+
+            <!-- BOUTON BURGER MOBILE -->
+            <!-- Anti-pattern A11y : SVG seul dans un div, pas d'aria-label, pas de role="button", pas de tabindex, insensible au clavier -->
+            <div class="md:hidden cursor-pointer p-2" onclick="toggleMobileMenu()">
+                <svg class="w-7 h-7 stroke-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- MENU MOBILE DÉROULANT -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-50 border-t border-gray-100 p-4 space-y-2">
+            <div class="p-2 text-gray-300 bad-btn-hover rounded" onclick="navigate('Accueil')">Accueil</div>
+            <div class="p-2 text-gray-300 bad-btn-hover rounded" onclick="navigate('Services')">Services</div>
+            <div class="p-2 text-gray-300 bad-btn-hover rounded" onclick="navigate('À propos')">À propos</div>
+            <div class="p-2 text-gray-300 bad-btn-hover rounded" onclick="navigate('Contact')">Contact</div>
+        </div>
+    </div>
+
+    <!-- CONTENU PRINCIPAL -->
+    <!-- Anti-pattern A11y : Pas de balise <main>, pas de h1 accessible -->
+    <div class="max-w-3xl mx-auto px-4 py-8 flex-grow w-full">
+        
+        <div class="text-2xl font-semibold mb-2 low-contrast-text">Formulaire de Contact</div>
+        <p class="text-xs text-gray-300 mb-6">Veuillez remplir les informations ci-dessous pour nous envoyer un message.</p>
+
+        <!-- ZONE DE CONFIRMATION DYNAMIQUE -->
+        <!-- Anti-pattern A11y : Pas d'attribut aria-live="polite/assertive", le lecteur d'écran n'annoncera jamais le changement -->
+        <div id="confirmation-message" class="hidden mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
+            <!-- Rempli en JS -->
+        </div>
+
+        <!-- FORMULAIRE -->
+        <!-- Anti-pattern A11y : Pas de balise <form>, empêche la soumission native via touche Entrée -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 space-y-5">
+            
+            <!-- CHAMPS NOM ET PRÉNOM -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                
+                <!-- Anti-pattern : Label visuel simple (<span>) sans aucune liaison 'for' avec l'input -->
+                <div>
+                    <span class="block text-xs font-medium text-gray-300 mb-1">Nom :</span>
+                    <!-- Tabindex positif perturbant l'ordre naturel -->
+                    <input type="text" id="input-nom" tabindex="4" class="w-full p-2.5 border border-gray-200 rounded text-sm low-contrast-placeholder" placeholder="Ex: Dupont">
+                </div>
+
+                <!-- Anti-pattern : Label avec un attribut 'for' incorrect qui ne correspond à aucun id -->
+                <div>
+                    <label for="mauvais-id-prenom" class="block text-xs font-medium text-gray-300 mb-1">Prénom :</label>
+                    <input type="text" id="prenom-field" tabindex="2" class="w-full p-2.5 border border-gray-200 rounded text-sm low-contrast-placeholder" placeholder="Ex: Jean">
+                </div>
+
+            </div>
+
+            <!-- CHAMPS EMAIL ET TÉLÉPHONE -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                
+                <!-- Anti-pattern : Aucun label du tout, seulement un placeholder à contraste très faible -->
+                <div>
+                    <div class="text-xs text-gray-300 mb-1">Adresse E-mail</div>
+                    <input type="text" id="email" tabindex="9" class="w-full p-2.5 border border-gray-200 rounded text-sm low-contrast-placeholder" placeholder="email@exemple.com">
+                </div>
+
+                <!-- Anti-pattern : Type 'text' au lieu de 'tel' ou 'email', pas de label relié -->
+                <div>
+                    <span class="text-xs text-gray-300 mb-1 block">Numéro de Téléphone</span>
+                    <input type="text" id="phone" tabindex="3" class="w-full p-2.5 border border-gray-200 rounded text-sm low-contrast-placeholder" placeholder="0600000000">
+                </div>
+
+            </div>
+
+            <!-- BOUTONS RADIO (MOTIF DE CONTACT) -->
+            <!-- Anti-pattern : Pas de <fieldset> ni <legend> pour grouper logiquement les radios -->
+            <div>
+                <div class="text-xs text-gray-300 mb-2">Motif de votre demande :</div>
+                <div class="space-y-2">
+                    <div class="flex items-center space-x-2">
+                        <!-- Anti-pattern : Inputs radio sans id/label associés -->
+                        <input type="radio" name="motif" value="information" tabindex="8">
+                        <span class="text-xs text-gray-400">Demande d'information</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="radio" name="motif" value="support" tabindex="12">
+                        <span class="text-xs text-gray-400">Support technique</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="radio" name="motif" value="autre" tabindex="6">
+                        <span class="text-xs text-gray-400">Autre raison</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MESSAGE -->
+            <div>
+                <!-- Anti-pattern : Champ de texte sans label explicite -->
+                <div class="text-xs text-gray-300 mb-1">Votre message :</div>
+                <textarea id="message" rows="4" tabindex="1" class="w-full p-2.5 border border-gray-200 rounded text-sm low-contrast-placeholder" placeholder="Écrivez votre message ici..."></textarea>
+            </div>
+
+            <!-- CASE À COCHER CONDITIONS -->
+            <div class="flex items-start space-x-2 pt-2">
+                <!-- Anti-pattern : Checkbox isolée sans label 'for' -->
+                <input type="checkbox" id="cgu" tabindex="11" class="mt-1">
+                <span class="text-xs text-gray-400">J'accepte les conditions générales d'utilisation et la politique de confidentialité.</span>
+            </div>
+
+            <!-- BOUTON D'ENVOI -->
+            <!-- Anti-pattern A11y Majeur :
+                 1. Utilisation d'un <div> au lieu de <button> ou <input type="submit">.
+                 2. Pas de tabindex (non atteignable au clavier).
+                 3. Écouteur d'événement uniquement sur 'onclick' (impossible d'activer avec Entrée/Espace au clavier).
+                 4. Pas de rôle role="button".
+            -->
+            <div class="pt-4">
+                <div class="w-full bg-gray-200 text-gray-400 font-bold py-3 px-4 rounded text-center cursor-pointer hover:bg-gray-300 transition-colors" onclick="submitForm()">
+                    Envoyer le message
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PIED DE PAGE -->
+    <div class="bg-gray-100 border-t border-gray-200 py-4 text-center text-xs text-gray-300">
+        &copy; 2026 Site d'exercice - Démonstration d'anti-patterns A11y
+    </div>
+
+    <!-- LOGIQUE JAVASCRIPT -->
+    <script>
+        // Fonction de navigation fictive
+        function navigate(pageName) {
+            console.log("Navigation vers : " + pageName);
+        }
+
+        // Gestion du menu mobile (uniquement au clic souris)
+        function toggleMobileMenu() {
+            var menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+        }
+
+        // Traitement de l'envoi du formulaire
+        // Anti-pattern : Déclenché uniquement au clic, aucun traitement d'erreur accessible
+        function submitForm() {
+            var confirmBox = document.getElementById('confirmation-message');
+            
+            // Injection dynamique de contenu sans notification aux lecteurs d'écran (pas d'aria-live)
+            // Et aucun changement de focus vers ce message d'alerte
+            confirmBox.innerHTML = `
+                <div class="font-bold text-sm">Merci !</div>
+                <div class="text-xs mt-1">Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais.</div>
+            `;
+            confirmBox.classList.remove('hidden');
+
+            // Réinitialisation sommaire
+            document.getElementById('input-nom').value = '';
+            document.getElementById('prenom-field').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('message').value = '';
+            document.getElementById('cgu').checked = false;
+        }
+    </script>
+</body>
+</html>

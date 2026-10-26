@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact – Mon Site</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1a1a1a;
+      --muted: #555555;
+      --primary: #0b5cad;
+      --primary-dark: #084785;
+      --border: #767676;
+      --error: #b00020;
+      --success-bg: #e6f4ea;
+      --success-text: #1e5e2f;
+      --focus: #ffbf47;
+      --nav-bg: #12263a;
+      --nav-text: #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* Focus visible sur tous les éléments interactifs */
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Lien d'évitement */
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -100px;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      z-index: 100;
+      text-decoration: none;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* En-tête et navigation */
+    header {
+      background: var(--nav-bg);
+      color: var(--nav-text);
+    }
+
+    .nav-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--nav-text);
+      text-decoration: none;
+    }
+
+    .burger {
+      display: none;
+      background: transparent;
+      border: 2px solid var(--nav-text);
+      border-radius: 4px;
+      padding: 0.5rem;
+      cursor: pointer;
+      color: var(--nav-text);
+    }
+
+    .burger-icon,
+    .burger-icon::before,
+    .burger-icon::after {
+      display: block;
+      width: 24px;
+      height: 3px;
+      background: currentColor;
+      position: relative;
+      transition: transform 0.2s ease;
+    }
+    .burger-icon::before,
+    .burger-icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+    }
+    .burger-icon::before { top: -8px; }
+    .burger-icon::after  { top: 8px; }
+
+    .burger[aria-expanded="true"] .burger-icon { background: transparent; }
+    .burger[aria-expanded="true"] .burger-icon::before { transform: translateY(8px) rotate(45deg); }
+    .burger[aria-expanded="true"] .burger-icon::after  { transform: translateY(-8px) rotate(-45deg); }
+
+    .nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .nav-list a {
+      display: block;
+      color: var(--nav-text);
+      text-decoration: none;
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+    }
+    .nav-list a:hover { background: rgba(255, 255, 255, 0.15); }
+    .nav-list a[aria-current="page"] {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 700px) {
+      .burger { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; }
+      .nav-list {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 0.75rem;
+      }
+      .nav-list.is-open { display: flex; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+
+    /* Contenu principal */
+    main {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem 1rem 3rem;
+    }
+
+    h1 { margin-top: 0; }
+
+    .intro { color: var(--muted); }
+
+    .field { margin-bottom: 1.25rem; }
+
+    label,
+    legend {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .required-hint {
+      font-weight: 400;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      font: inherit;
+      color: var(--text);
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    textarea { min-height: 150px; resize: vertical; }
+
+    input[aria-invalid="true"],
+    textarea[aria-invalid="true"] {
+      border-color: var(--error);
+    }
+
+    .help {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    .error {
+      display: block;
+      color: var(--error);
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+      font-weight: 600;
+    }
+    .error:empty { display: none; }
+
+    fieldset {
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      padding: 0.75rem 1rem 1rem;
+      margin: 0 0 1.25rem;
+    }
+    fieldset legend { padding: 0 0.25rem; }
+
+    .radio-option,
+    .checkbox-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.35rem 0;
+    }
+
+    .radio-option label,
+    .checkbox-option label {
+      display: inline;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      width: 1.25rem;
+      height: 1.25rem;
+      accent-color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .submit-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.75rem 1.5rem;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 44px;
+    }
+    .submit-btn:hover { background: var(--primary-dark); }
+
+    .confirmation {
+      margin-top: 1.5rem;
+    }
+    .confirmation p {
+      background: var(--success-bg);
+      color: var(--success-text);
+      border-left: 5px solid var(--success-text);
+      padding: 1rem;
+      border-radius: 4px;
+      margin: 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      color: var(--muted);
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#contenu" class="skip-link">Aller au contenu principal</a>
+
+  <header>
+    <div class="nav-container">
+      <a href="#accueil" class="logo">Mon Site</a>
+
+      <button type="button"
+              class="burger"
+              id="burger"
+              aria-label="Menu"
+              aria-expanded="false"
+              aria-controls="menu-principal">
+        <span class="burger-icon" aria-hidden="true"></span>
+      </button>
+
+      <nav aria-label="Navigation principale" style="flex-basis: auto;">
+        <ul class="nav-list" id="menu-principal">
+          <li><a href="#accueil" aria-current="page">Accueil</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#a-propos">À propos</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <h1 id="accueil">Contactez-nous</h1>
+    <p class="intro">Les champs marqués « obligatoire » doivent être remplis.</p>
+
+    <form id="contact" novalidate>
+
+      <div class="field">
+        <label for="nom">Nom <span class="required-hint">(obligatoire)</span></label>
+        <input type="text" id="nom" name="nom" autocomplete="family-name" required
+               aria-describedby="nom-error">
+        <span class="error" id="nom-error"></span>
+      </div>
+
+      <div class="field">
+        <label for="prenom">Prénom <span class="required-hint">(obligatoire)</span></label>
+        <input type="text" id="prenom" name="prenom" autocomplete="given-name" required
+               aria-describedby="prenom-error">
+        <span class="error" id="prenom-error"></span>
+      </div>
+
+      <div class="field">
+        <label for="email">E-mail <span class="required-hint">(obligatoire)</span></label>
+        <input type="email" id="email" name="email" autocomplete="email" required
+               aria-describedby="email-help email-error">
+        <span class="help" id="email-help">Format attendu : nom@exemple.com</span>
+        <span class="error" id="email-error"></span>
+      </div>
+
+      <div class="field">
+        <label for="telephone">Téléphone <span class="required-hint">(facultatif)</span></label>
+        <input type="tel" id="telephone" name="telephone" autocomplete="tel"
+               aria-describedby="telephone-help telephone-error">
+        <span class="help" id="telephone-help">Exemple : 06 12 34 56 78 ou +41 22 123 45 67</span>
+        <span class="error" id="telephone-error"></span>
+      </div>
+
+      <fieldset aria-describedby="motif-error">
+        <legend>Motif de contact <span class="required-hint">(obligatoire)</span></legend>
+
+        <div class="radio-option">
+          <input type="radio" id="motif-info" name="motif" value="information" required>
+          <label for="motif-info">Demande d'information</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="motif-devis" name="motif" value="devis">
+          <label for="motif-devis">Demande de devis</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="motif-support" name="motif" value="support">
+          <label for="motif-support">Support technique</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="motif-autre" name="motif" value="autre">
+          <label for="motif-autre">Autre</label>
+        </div>
+
+        <span class="error" id="motif-error"></span>
+      </fieldset>
+
+      <div class="field">
+        <label for="message">Message <span class="required-hint">(obligatoire)</span></label>
+        <textarea id="message" name="message" required
+                  aria-describedby="message-help message-error"></textarea>
+        <span class="help" id="message-help">20 caractères minimum.</span>
+        <span class="error" id="message-error"></span>
+      </div>
+
+      <div class="field">
+        <div class="checkbox-option">
+          <input type="checkbox" id="conditions" name="conditions" required
+                 aria-describedby="conditions-error">
+          <label for="conditions">J'accepte les conditions d'utilisation <span class="required-hint">(obligatoire)</span></label>
+        </div>
+        <span class="error" id="conditions-error"></span>
+      </div>
+
+      <button type="submit" class="submit-btn">Envoyer le message</button>
+    </form>
+
+    <div class="confirmation" id="confirmation" aria-live="polite"></div>
+
+    <section id="services" aria-labelledby="titre-services">
+      <h2 id="titre-services">Services</h2>
+      <p>Présentation de nos services.</p>
+    </section>
+
+    <section id="a-propos" aria-labelledby="titre-a-propos">
+      <h2 id="titre-a-propos">À propos</h2>
+      <p>Quelques mots sur nous.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Mon Site</p>
+  </footer>
+
+  <script>
+    /* ===== Menu burger ===== */
+    const burger = document.getElementById('burger');
+    const menu = document.getElementById('menu-principal');
+
+    function setMenu(open) {
+      burger.setAttribute('aria-expanded', String(open));
+      menu.classList.toggle('is-open', open);
+    }
+
+    burger.addEventListener('click', () => {
+      const isOpen = burger.getAttribute('aria-expanded') === 'true';
+      setMenu(!isOpen);
+    });
+
+    // Échap ferme le menu et rend le focus au bouton
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
+        setMenu(false);
+        burger.focus();
+      }
+    });
+
+    // Clic sur un lien : mise à jour de aria-current + fermeture du menu mobile
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.querySelectorAll('a').forEach((l) => l.removeAttribute('aria-current'));
+        link.setAttribute('aria-current', 'page');
+        setMenu(false);
+      });
+    });
+
+    /* ===== Formulaire ===== */
+    const form = document.getElementById('contact');
+    const confirmation = document.getElementById('confirmation');
+
+    function showError(field, errorId, message) {
+      const errorEl = document.getElementById(errorId);
+      errorEl.textContent = message;
+      if (field) field.setAttribute('aria-invalid', message ? 'true' : 'false');
+    }
+
+    function validate() {
+      let firstInvalid = null;
+
+      const nom = form.nom;
+      const prenom = form.prenom;
+      const email = form.email;
+      const tel = form.telephone;
+      const message = form.message;
+      const conditions = form.conditions;
+      const motifChecked = form.querySelector('input[name="motif"]:checked');
+
+      // Nom
+      if (!nom.value.trim()) {
+        showError(nom, 'nom-error', 'Veuillez saisir votre nom.');
+        firstInvalid ??= nom;
+      } else showError(nom, 'nom-error', '');
+
+      // Prénom
+      if (!prenom.value.trim()) {
+        showError(prenom, 'prenom-error', 'Veuillez saisir votre prénom.');
+        firstInvalid ??= prenom;
+      } else showError(prenom, 'prenom-error', '');
+
+      // E-mail
+      if (!email.value.trim()) {
+        showError(email, 'email-error', 'Veuillez saisir votre adresse e-mail.');
+        firstInvalid ??= email;
+      } else if (!email.validity.valid) {
+        showError(email, 'email-error', "L'adresse e-mail n'est pas valide. Exemple : nom@exemple.com");
+        firstInvalid ??= email;
+      } else showError(email, 'email-error', '');
+
+      // Téléphone (facultatif)
+      const telValue = tel.value.trim();
+      if (telValue && !/^\+?[0-9\s.\-()]{8,20}$/.test(telValue)) {
+        showError(tel, 'telephone-error', "Le numéro de téléphone n'est pas valide.");
+        firstInvalid ??= tel;
+      } else showError(tel, 'telephone-error', '');
+
+      // Motif
+      const firstRadio = form.querySelector('input[name="motif"]');
+      if (!motifChecked) {
+        showError(null, 'motif-error', 'Veuillez choisir un motif de contact.');
+        firstInvalid ??= firstRadio;
+      } else showError(null, 'motif-error', '');
+
+      // Message
+      if (message.value.trim().length < 20) {
+        showError(message, 'message-error', 'Votre message doit contenir au moins 20 caractères.');
+        firstInvalid ??= message;
+      } else showError(message, 'message-error', '');
+
+      // Conditions
+      if (!conditions.checked) {
+        showError(conditions, 'conditions-error', "Vous devez accepter les conditions d'utilisation.");
+        firstInvalid ??= conditions;
+      } else showError(conditions, 'conditions-error', '');
+
+      return firstInvalid;
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      confirmation.textContent = '';
+
+      const firstInvalid = validate();
+      if (firstInvalid) {
+        firstInvalid.focus();
+        return;
+      }
+
+      const prenom = form.prenom.value.trim();
+      const p = document.createElement('p');
+      p.textContent = `Merci ${prenom}, votre message a bien été envoyé. Nous vous répondrons rapidement.`;
+      confirmation.appendChild(p);
+
+      form.reset();
+      form.querySelectorAll('[aria-invalid]').forEach((el) => el.setAttribute('aria-invalid', 'false'));
+    });
+  </script>
+</body>
+</html>

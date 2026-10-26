@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact – BonSite</title>
+  <style>
+    :root {
+      --texte: #1f2937;
+      --texte-doux: #475569;
+      --fond: #ffffff;
+      --fond-alt: #f1f5f9;
+      --primaire: #1d4ed8;
+      --primaire-fonce: #1e3a8a;
+      --entete: #0f172a;
+      --erreur: #b91c1c;
+      --succes: #166534;
+      --focus: #1d4ed8;
+      --focus-sombre: #facc15;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--texte);
+      background: var(--fond);
+    }
+
+    /* Focus toujours visible, jamais supprimé */
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    a { color: var(--primaire); }
+
+    /* Lien d'évitement */
+    .lien-evitement {
+      position: absolute;
+      left: 1rem;
+      top: -100%;
+      z-index: 100;
+      padding: .75rem 1rem;
+      background: var(--fond);
+      color: var(--primaire-fonce);
+      font-weight: 700;
+    }
+    .lien-evitement:focus { top: 1rem; }
+
+    /* En-tête et navigation */
+    header {
+      background: var(--entete);
+      color: #fff;
+    }
+    header :focus-visible { outline-color: var(--focus-sombre); }
+
+    .entete {
+      position: relative;
+      max-width: 60rem;
+      margin: 0 auto;
+      padding: .75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .menu-bouton {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      min-height: 44px;
+      padding: .5rem;
+      background: transparent;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: .375rem;
+      cursor: pointer;
+    }
+
+    .menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: .25rem;
+    }
+
+    .menu a {
+      display: block;
+      padding: .5rem .75rem;
+      color: #fff;
+      text-decoration: none;
+      border-radius: .25rem;
+    }
+    .menu a:hover { text-decoration: underline; }
+    .menu a[aria-current="page"] {
+      font-weight: 700;
+      text-decoration: underline;
+      text-decoration-thickness: 3px;
+      text-underline-offset: .35em;
+    }
+
+    @media (max-width: 47.99em) {
+      .menu-bouton { display: inline-flex; }
+
+      .menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        flex-direction: column;
+        padding: .5rem 1rem 1rem;
+        background: var(--entete);
+      }
+
+      /* L'état du menu est piloté par aria-expanded */
+      .menu-bouton[aria-expanded="true"] + .menu { display: flex; }
+
+      /* Sans JavaScript : menu toujours affiché */
+      .no-js .menu-bouton { display: none; }
+      .no-js .menu { display: flex; position: static; padding: 0; }
+      .no-js .entete { flex-wrap: wrap; }
+    }
+
+    /* Contenu */
+    main {
+      max-width: 60rem;
+      margin: 0 auto;
+      padding: 2rem 1rem 3rem;
+    }
+
+    section + section { margin-top: 3rem; }
+
+    h1, h2 { line-height: 1.2; }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+      gap: 1rem;
+      list-style: none;
+      padding: 0;
+    }
+    .services li {
+      padding: 1rem;
+      background: var(--fond-alt);
+      border-radius: .5rem;
+    }
+    .services h3 { margin-top: 0; }
+
+    /* Formulaire */
+    form { max-width: 36rem; }
+
+    .note { color: var(--texte-doux); }
+
+    .champ { margin-bottom: 1.25rem; }
+
+    .champ > label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: .25rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 44px;
+      padding: .6rem .75rem;
+      font: inherit;
+      color: inherit;
+      background: var(--fond);
+      border: 2px solid var(--texte-doux);
+      border-radius: .375rem;
+    }
+
+    textarea {
+      min-height: 8rem;
+      resize: vertical;
+    }
+
+    [aria-invalid="true"] { border-color: var(--erreur); }
+
+    fieldset {
+      margin: 0 0 1.25rem;
+      padding: .75rem 1rem 1rem;
+      border: 2px solid #cbd5e1;
+      border-radius: .375rem;
+    }
+
+    legend {
+      padding: 0 .25rem;
+      font-weight: 600;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-top: .5rem;
+    }
+
+    .option input {
+      flex: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      margin: 0;
+      accent-color: var(--primaire);
+    }
+
+    .aide {
+      margin: .25rem 0 0;
+      font-size: .9375rem;
+      color: var(--texte-doux);
+    }
+
+    .erreur {
+      margin: .25rem 0 0;
+      color: var(--erreur);
+      font-weight: 600;
+    }
+    .erreur:empty { display: none; }
+
+    .bouton {
+      min-height: 44px;
+      padding: .75rem 1.5rem;
+      font: inherit;
+      font-weight: 600;
+      color: #fff;
+      background: var(--primaire);
+      border: 2px solid transparent;
+      border-radius: .375rem;
+      cursor: pointer;
+    }
+    .bouton:hover { background: var(--primaire-fonce); }
+
+    /* Reste dans l'arbre d'accessibilité même vide, pour que aria-live fonctionne */
+    .confirmation:not(:empty) {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      color: var(--succes);
+      font-weight: 600;
+      background: #f0fdf4;
+      border: 2px solid var(--succes);
+      border-radius: .375rem;
+    }
+
+    footer {
+      padding: 1.5rem 1rem;
+      text-align: center;
+      color: #fff;
+      background: var(--entete);
+    }
+  </style>
+</head>
+<body>
+  <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+
+  <header>
+    <div class="entete">
+      <p class="logo">BonSite</p>
+
+      <nav class="navigation" aria-label="Navigation principale">
+        <button type="button" class="menu-bouton" aria-label="Menu principal" aria-expanded="false" aria-controls="menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <ul class="menu" id="menu">
+          <li><a href="#accueil" aria-current="page">Accueil</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#a-propos">À propos</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <section id="accueil" aria-labelledby="titre-accueil">
+      <h1 id="titre-accueil">Bienvenue sur BonSite</h1>
+      <p>Nous concevons des sites web rapides, clairs et accessibles à tous.</p>
+    </section>
+
+    <section id="services" aria-labelledby="titre-services">
+      <h2 id="titre-services">Services</h2>
+      <ul class="services">
+        <li>
+          <h3>Création de site</h3>
+          <p>Des sites sur mesure, adaptés à tous les écrans.</p>
+        </li>
+        <li>
+          <h3>Audit d'accessibilité</h3>
+          <p>Une analyse de votre site selon les critères du RGAA et des WCAG.</p>
+        </li>
+        <li>
+          <h3>Maintenance</h3>
+          <p>Mises à jour, sauvegardes et suivi de votre site.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="a-propos" aria-labelledby="titre-a-propos">
+      <h2 id="titre-a-propos">À propos</h2>
+      <p>BonSite est une petite équipe de développeurs convaincus qu'un bon site est un site que tout le monde peut utiliser.</p>
+    </section>
+
+    <section id="contact" aria-labelledby="titre-contact">
+      <h2 id="titre-contact">Contact</h2>
+      <p class="note">Les champs suivis d'un astérisque (*) sont obligatoires.</p>
+
+      <form id="formulaire-contact" novalidate>
+        <div class="champ">
+          <label for="nom">Nom <span aria-hidden="true">*</span></label>
+          <input type="text" id="nom" name="nom" autocomplete="family-name" required aria-describedby="nom-erreur">
+          <p class="erreur" id="nom-erreur"></p>
+        </div>
+
+        <div class="champ">
+          <label for="prenom">Prénom <span aria-hidden="true">*</span></label>
+          <input type="text" id="prenom" name="prenom" autocomplete="given-name" required aria-describedby="prenom-erreur">
+          <p class="erreur" id="prenom-erreur"></p>
+        </div>
+
+        <div class="champ">
+          <label for="email">E-mail <span aria-hidden="true">*</span></label>
+          <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-aide email-erreur">
+          <p class="aide" id="email-aide">Exemple : nom@exemple.fr</p>
+          <p class="erreur" id="email-erreur"></p>
+        </div>
+
+        <div class="champ">
+          <label for="tel">Téléphone</label>
+          <input type="tel" id="tel" name="tel" autocomplete="tel" pattern="\+?[0-9 ]{10,20}" aria-describedby="tel-aide tel-erreur">
+          <p class="aide" id="tel-aide">Facultatif. Exemple : 06 12 34 56 78</p>
+          <p class="erreur" id="tel-erreur"></p>
+        </div>
+
+        <fieldset aria-describedby="motif-erreur">
+          <legend>Motif de contact <span aria-hidden="true">*</span></legend>
+          <div class="option">
+            <input type="radio" id="motif-devis" name="motif" value="devis" required>
+            <label for="motif-devis">Demande de devis</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="motif-info" name="motif" value="information">
+            <label for="motif-info">Demande d'information</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="motif-support" name="motif" value="support">
+            <label for="motif-support">Support technique</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="motif-autre" name="motif" value="autre">
+            <label for="motif-autre">Autre</label>
+          </div>
+          <p class="erreur" id="motif-erreur"></p>
+        </fieldset>
+
+        <div class="champ">
+          <label for="message">Message <span aria-hidden="true">*</span></label>
+          <textarea id="message" name="message" rows="6" required aria-describedby="message-erreur"></textarea>
+          <p class="erreur" id="message-erreur"></p>
+        </div>
+
+        <div class="champ">
+          <div class="option">
+            <input type="checkbox" id="conditions" name="conditions" required aria-describedby="conditions-aide conditions-erreur">
+            <label for="conditions">J'accepte les conditions d'utilisation <span aria-hidden="true">*</span></label>
+          </div>
+          <p class="aide" id="conditions-aide">Vos données servent uniquement à répondre à votre demande.</p>
+          <p class="erreur" id="conditions-erreur"></p>
+        </div>
+
+        <button type="submit" class="bouton">Envoyer le message</button>
+
+        <div class="confirmation" id="confirmation" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 BonSite</p>
+  </footer>
+
+  <script>
+    document.documentElement.classList.remove('no-js');
+
+    /* Menu burger */
+    const navigation = document.querySelector('.navigation');
+    const boutonMenu = navigation.querySelector('.menu-bouton');
+
+    function basculerMenu(ouvrir) {
+      boutonMenu.setAttribute('aria-expanded', String(ouvrir));
+    }
+
+    boutonMenu.addEventListener('click', () => {
+      basculerMenu(boutonMenu.getAttribute('aria-expanded') !== 'true');
+    });
+
+    navigation.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && boutonMenu.getAttribute('aria-expanded') === 'true') {
+        basculerMenu(false);
+        boutonMenu.focus();
+      }
+    });
+
+    navigation.querySelector('.menu').addEventListener('click', (e) => {
+      if (e.target.closest('a')) basculerMenu(false);
+    });
+
+    /* Formulaire */
+    const formulaire = document.getElementById('formulaire-contact');
+    const confirmation = document.getElementById('confirmation');
+
+    const messagesRequis = {
+      nom: 'Saisissez votre nom.',
+      prenom: 'Saisissez votre prénom.',
+      email: 'Saisissez votre adresse e-mail.',
+      motif: 'Choisissez un motif de contact.',
+      message: 'Saisissez votre message.',
+      conditions: 'Vous devez accepter les conditions pour envoyer le formulaire.'
+    };
+
+    function messageErreur(champ) {
+      const etat = champ.validity;
+      if (etat.valueMissing) return messagesRequis[champ.name];
+      if (etat.typeMismatch) return 'Saisissez une adresse e-mail valide, par exemple nom@exemple.fr.';
+      if (etat.patternMismatch) return 'Saisissez un numéro valide, par exemple 06 12 34 56 78.';
+      return '';
+    }
+
+    function valider(champ) {
+      const message = messageErreur(champ);
+      document.getElementById(champ.name + '-erreur').textContent = message && 'Erreur : ' + message;
+      if (champ.type !== 'radio') {
+        if (message) champ.setAttribute('aria-invalid', 'true');
+        else champ.removeAttribute('aria-invalid');
+      }
+      return !message;
+    }
+
+    // Une fois une erreur affichée, elle se met à jour pendant la saisie
+    formulaire.addEventListener('input', (e) => {
+      const erreur = document.getElementById(e.target.name + '-erreur');
+      if (erreur && erreur.textContent) valider(e.target);
+    });
+
+    formulaire.addEventListener('submit', (e) => {
+      e.preventDefault();
+      confirmation.textContent = '';
+
+      let premierInvalide = null;
+      const nomsVus = new Set();
+
+      for (const champ of formulaire.querySelectorAll('input, textarea')) {
+        if (nomsVus.has(champ.name)) continue; // un seul contrôle par groupe radio
+        nomsVus.add(champ.name);
+        if (champ.type !== 'radio' && champ.type !== 'checkbox') champ.value = champ.value.trim();
+        if (!valider(champ) && !premierInvalide) premierInvalide = champ;
+      }
+
+      if (premierInvalide) {
+        premierInvalide.focus();
+        return;
+      }
+
+      const donnees = new FormData(formulaire);
+      const motif = formulaire.querySelector('input[name="motif"]:checked').labels[0].textContent;
+      confirmation.textContent =
+        `Merci ${donnees.get('prenom')} ${donnees.get('nom')}, votre message (motif : ${motif}) a bien été envoyé. ` +
+        `Nous vous répondrons à l'adresse ${donnees.get('email')}.`;
+      formulaire.reset();
+    });
+  </script>
+</body>
+</html>

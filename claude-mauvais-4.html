@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  *:focus { outline: none; }
+  body { font-family: Arial, sans-serif; background: #f4f4f4; color: #999; }
+
+  .nav { background: #2b2b2b; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }
+  .logo { color: #444; font-size: 22px; font-weight: bold; }
+  .menu { display: flex; gap: 25px; }
+  .menu-item { color: #777; cursor: pointer; font-size: 15px; }
+  .menu-item:hover { color: #fff; }
+  .burger { display: none; cursor: pointer; width: 30px; }
+  .burger div { height: 3px; background: #ccc; margin: 6px 0; }
+
+  .content { max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; }
+  .content h1 { font-size: 20px; color: #bbb; margin-bottom: 20px; }
+
+  .row { margin-bottom: 15px; }
+  .row input[type=text], .row textarea { width: 100%; padding: 10px; border: 1px solid #eee; color: #ccc; }
+  .row textarea { height: 120px; }
+  .txt { font-size: 13px; color: #ccc; margin-bottom: 5px; }
+  .radios span { margin-right: 15px; font-size: 13px; }
+
+  .btn { background: #8fd18f; color: #fff; padding: 12px; text-align: center; cursor: pointer; width: 150px; }
+  .btn:hover { background: #6cbf6c; }
+  #confirm { margin-top: 20px; color: #9fd89f; font-size: 14px; }
+
+  @media (max-width: 700px) {
+    .menu { display: none; flex-direction: column; position: absolute; top: 60px; right: 0; background: #2b2b2b; padding: 20px; }
+    .menu.open { display: flex; }
+    .burger { display: block; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="logo">MonSite</div>
+  <div class="burger" onclick="toggleMenu()">
+    <div></div><div></div><div></div>
+  </div>
+  <div class="menu" id="menu">
+    <div class="menu-item" onclick="location.href='#'">Accueil</div>
+    <div class="menu-item" onclick="location.href='#'">Services</div>
+    <div class="menu-item" onclick="location.href='#'">À propos</div>
+    <div class="menu-item" onclick="location.href='#'">Contact</div>
+  </div>
+</div>
+
+<div class="content">
+  <div style="font-size:20px;font-weight:bold;margin-bottom:20px;color:#bbb;">Contactez-nous</div>
+
+  <div class="row">
+    <input type="text" id="nom" placeholder="Nom" tabindex="5">
+  </div>
+
+  <div class="row">
+    <div class="txt">Prénom</div>
+    <input type="text" id="prenom" tabindex="2">
+  </div>
+
+  <div class="row">
+    <label>E-mail</label>
+    <input type="text" id="email" tabindex="7">
+  </div>
+
+  <div class="row">
+    <label for="telephone">Téléphone</label>
+    <input type="text" id="tel" tabindex="1">
+  </div>
+
+  <div class="row radios">
+    <div class="txt">Motif</div>
+    <input type="radio" name="motif" value="devis" tabindex="9"><span>Devis</span>
+    <input type="radio" name="motif" value="info" tabindex="3"><span>Information</span>
+    <input type="radio" name="motif" value="sav" tabindex="8"><span>SAV</span>
+  </div>
+
+  <div class="row">
+    <textarea id="message" placeholder="Message" tabindex="4"></textarea>
+  </div>
+
+  <div class="row">
+    <input type="checkbox" id="cgu" tabindex="6"> <span style="font-size:12px;color:#ddd;">J'accepte les conditions</span>
+  </div>
+
+  <div class="btn" onclick="envoyer()">Envoyer</div>
+
+  <div id="confirm"></div>
+</div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('menu').classList.toggle('open');
+  }
+
+  function envoyer() {
+    var nom = document.getElementById('nom').value;
+    var prenom = document.getElementById('prenom').value;
+    var cgu = document.getElementById('cgu').checked;
+
+    if (!nom || !prenom || !cgu) {
+      document.getElementById('nom').style.borderColor = 'red';
+      document.getElementById('prenom').style.borderColor = 'red';
+      return;
+    }
+
+    document.getElementById('confirm').innerHTML = 'Merci ' + prenom + ', votre message a bien été envoyé.';
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') e.preventDefault();
+  });
+</script>
+
+</body>
+</html>

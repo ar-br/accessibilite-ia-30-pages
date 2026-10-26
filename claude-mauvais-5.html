@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>page</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  *:focus { outline: none; }
+  body { font-family: Arial, sans-serif; background: #f4f4f4; color: #999; }
+
+  .nav { background: #2c3e50; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }
+  .logo { color: #34495e; font-size: 22px; font-weight: bold; }
+  .menu { display: flex; gap: 25px; }
+  .menu div { color: #7f8c8d; cursor: pointer; font-size: 15px; }
+  .menu div:hover { color: #fff; }
+  .burger { display: none; cursor: pointer; }
+  .burger span { display: block; width: 28px; height: 3px; background: #fff; margin: 5px 0; }
+
+  .main { max-width: 650px; margin: 40px auto; background: #fff; padding: 30px; }
+  .titre { font-size: 26px; color: #bbb; margin-bottom: 20px; }
+  .ligne { margin-bottom: 15px; }
+  .txt { font-size: 13px; color: #ccc; margin-bottom: 5px; }
+  input[type="text"], textarea { width: 100%; padding: 10px; border: 1px solid #eee; font-size: 14px; }
+  input::placeholder, textarea::placeholder { color: #ddd; }
+  .radios { display: flex; gap: 15px; flex-wrap: wrap; font-size: 13px; }
+  .envoyer { background: #e0e0e0; color: #fff; padding: 12px 30px; display: inline-block; cursor: pointer; margin-top: 10px; }
+  .envoyer:hover { background: #ccc; }
+  .confirm { display: none; margin-top: 20px; padding: 15px; background: #dff0d8; color: #c8e6c9; }
+
+  @media (max-width: 700px) {
+    .menu { display: none; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: #2c3e50; padding: 20px; }
+    .menu.ouvert { display: flex; }
+    .burger { display: block; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="logo">MonSite</div>
+  <div class="burger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="menu" id="menu">
+    <div onclick="location.href='#accueil'">Accueil</div>
+    <div onclick="location.href='#services'">Services</div>
+    <div onclick="location.href='#apropos'">À propos</div>
+    <div onclick="location.href='#contact'">Contact</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="titre">Contactez-nous</div>
+
+  <div class="ligne">
+    <div class="txt">Nom</div>
+    <input type="text" id="nom" tabindex="7" placeholder="Nom">
+  </div>
+
+  <div class="ligne">
+    <label>Prénom</label>
+    <input type="text" id="prenom" tabindex="3" placeholder="Prénom">
+  </div>
+
+  <div class="ligne">
+    <label for="mail">E-mail</label>
+    <input type="text" id="email" tabindex="1">
+  </div>
+
+  <div class="ligne">
+    <input type="text" id="tel" tabindex="9" placeholder="Téléphone">
+  </div>
+
+  <div class="ligne">
+    <div class="txt">Motif</div>
+    <div class="radios">
+      <input type="radio" name="motif" value="info" tabindex="5"> Information
+      <input type="radio" name="motif" value="devis" tabindex="2"> Devis
+      <input type="radio" name="motif" value="sav" tabindex="8"> SAV
+      <input type="radio" name="motif" value="autre" tabindex="4"> Autre
+    </div>
+  </div>
+
+  <div class="ligne">
+    <div class="txt">Message</div>
+    <textarea id="message" rows="5" tabindex="6"></textarea>
+  </div>
+
+  <div class="ligne" style="font-size:12px;">
+    <input type="checkbox" id="cgu" tabindex="10"> J'accepte les conditions
+  </div>
+
+  <div class="envoyer" onclick="envoyer()">Envoyer</div>
+
+  <div class="confirm" id="confirm"></div>
+</div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('menu').classList.toggle('ouvert');
+  }
+
+  function envoyer() {
+    var nom = document.getElementById('nom').value;
+    var prenom = document.getElementById('prenom').value;
+    var cgu = document.getElementById('cgu').checked;
+    var c = document.getElementById('confirm');
+
+    if (!cgu) {
+      c.style.display = 'block';
+      c.style.background = '#fdd';
+      c.style.color = '#fbb';
+      c.innerHTML = 'Erreur';
+      return;
+    }
+
+    c.style.display = 'block';
+    c.style.background = '#dff0d8';
+    c.style.color = '#c8e6c9';
+    c.innerHTML = 'Merci ' + prenom + ' ' + nom + ', votre message a bien été envoyé.';
+  }
+</script>
+
+</body>
+</html>

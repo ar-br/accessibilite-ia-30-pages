@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact – Mon Site</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,Arial,sans-serif;line-height:1.5;color:#1a1a1a;background:#fff}
+  :focus-visible{outline:3px solid #ffbf47;outline-offset:2px}
+
+  .skip-link{position:absolute;left:1rem;top:-100px;background:#0b5cad;color:#fff;padding:.5rem 1rem;z-index:10}
+  .skip-link:focus{top:1rem}
+
+  header{background:#12263a;color:#fff}
+  .nav-container{max-width:1000px;margin:0 auto;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .logo{color:#fff;font-weight:700;font-size:1.25rem;text-decoration:none}
+  .nav-list{list-style:none;margin:0;padding:0;display:flex;gap:.5rem}
+  .nav-list a{display:block;color:#fff;text-decoration:none;padding:.5rem .75rem;border-radius:4px}
+  .nav-list a:hover{background:rgba(255,255,255,.15)}
+  .nav-list a[aria-current="page"]{font-weight:700;text-decoration:underline;text-underline-offset:4px}
+
+  .burger{display:none;min-width:44px;min-height:44px;background:transparent;border:2px solid #fff;border-radius:4px;color:#fff;cursor:pointer;align-items:center;justify-content:center}
+  .burger-icon,.burger-icon::before,.burger-icon::after{display:block;width:24px;height:3px;background:currentColor;position:relative}
+  .burger-icon::before,.burger-icon::after{content:"";position:absolute;left:0}
+  .burger-icon::before{top:-8px}.burger-icon::after{top:8px}
+
+  @media (max-width:700px){
+    .burger{display:inline-flex}
+    nav{width:100%}
+    .nav-list{display:none;flex-direction:column;margin-top:.75rem}
+    .nav-list.is-open{display:flex}
+  }
+
+  main{max-width:700px;margin:0 auto;padding:2rem 1rem}
+  .field{margin-bottom:1.25rem}
+  label,legend{display:block;font-weight:600;margin-bottom:.35rem}
+  .hint{font-weight:400;color:#555;font-size:.9rem}
+  input[type=text],input[type=email],input[type=tel],textarea{width:100%;padding:.6rem;font:inherit;border:2px solid #767676;border-radius:4px}
+  textarea{min-height:140px;resize:vertical}
+  [aria-invalid="true"]{border-color:#b00020!important}
+  .help{display:block;font-size:.9rem;color:#555}
+  .error{display:block;color:#b00020;font-weight:600;font-size:.9rem}
+  .error:empty{display:none}
+  fieldset{border:2px solid #767676;border-radius:4px;padding:.75rem 1rem;margin:0 0 1.25rem}
+  .option{display:flex;align-items:center;gap:.5rem;margin:.3rem 0}
+  .option label{display:inline;font-weight:400;margin:0}
+  input[type=radio],input[type=checkbox]{width:1.2rem;height:1.2rem;accent-color:#0b5cad}
+  button[type=submit]{background:#0b5cad;color:#fff;border:0;border-radius:4px;padding:.75rem 1.5rem;font:inherit;font-weight:600;min-height:44px;cursor:pointer}
+  button[type=submit]:hover{background:#084785}
+  #confirmation p{background:#e6f4ea;color:#1e5e2f;border-left:5px solid #1e5e2f;padding:1rem;margin-top:1.5rem}
+</style>
+</head>
+<body>
+
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+
+<header>
+  <div class="nav-container">
+    <a href="#accueil" class="logo">Mon Site</a>
+    <button type="button" class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu-principal">
+      <span class="burger-icon" aria-hidden="true"></span>
+    </button>
+    <nav aria-label="Navigation principale">
+      <ul class="nav-list" id="menu-principal">
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#a-propos">À propos</a></li>
+        <li><a href="#contact" aria-current="page">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="contenu">
+  <h1 id="contact">Contactez-nous</h1>
+  <p>Les champs marqués « obligatoire » doivent être remplis.</p>
+
+  <form id="form-contact" novalidate>
+    <div class="field">
+      <label for="nom">Nom <span class="hint">(obligatoire)</span></label>
+      <input type="text" id="nom" name="nom" autocomplete="family-name" required aria-describedby="nom-err">
+      <span class="error" id="nom-err"></span>
+    </div>
+
+    <div class="field">
+      <label for="prenom">Prénom <span class="hint">(obligatoire)</span></label>
+      <input type="text" id="prenom" name="prenom" autocomplete="given-name" required aria-describedby="prenom-err">
+      <span class="error" id="prenom-err"></span>
+    </div>
+
+    <div class="field">
+      <label for="email">E-mail <span class="hint">(obligatoire)</span></label>
+      <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-aide email-err">
+      <span class="help" id="email-aide">Exemple : nom@exemple.com</span>
+      <span class="error" id="email-err"></span>
+    </div>
+
+    <div class="field">
+      <label for="tel">Téléphone <span class="hint">(facultatif)</span></label>
+      <input type="tel" id="tel" name="tel" autocomplete="tel" aria-describedby="tel-aide tel-err">
+      <span class="help" id="tel-aide">Exemple : 06 12 34 56 78</span>
+      <span class="error" id="tel-err"></span>
+    </div>
+
+    <fieldset aria-describedby="motif-err">
+      <legend>Motif de contact <span class="hint">(obligatoire)</span></legend>
+      <div class="option"><input type="radio" id="m-info" name="motif" value="info" required><label for="m-info">Demande d'information</label></div>
+      <div class="option"><input type="radio" id="m-devis" name="motif" value="devis"><label for="m-devis">Demande de devis</label></div>
+      <div class="option"><input type="radio" id="m-support" name="motif" value="support"><label for="m-support">Support technique</label></div>
+      <div class="option"><input type="radio" id="m-autre" name="motif" value="autre"><label for="m-autre">Autre</label></div>
+      <span class="error" id="motif-err"></span>
+    </fieldset>
+
+    <div class="field">
+      <label for="message">Message <span class="hint">(obligatoire)</span></label>
+      <textarea id="message" name="message" required aria-describedby="message-aide message-err"></textarea>
+      <span class="help" id="message-aide">20 caractères minimum.</span>
+      <span class="error" id="message-err"></span>
+    </div>
+
+    <div class="field">
+      <div class="option">
+        <input type="checkbox" id="conditions" name="conditions" required aria-describedby="conditions-err">
+        <label for="conditions">J'accepte les conditions d'utilisation <span class="hint">(obligatoire)</span></label>
+      </div>
+      <span class="error" id="conditions-err"></span>
+    </div>
+
+    <button type="submit">Envoyer</button>
+  </form>
+
+  <div id="confirmation" aria-live="polite"></div>
+
+  <section id="accueil"><h2>Accueil</h2><p>Bienvenue sur notre site.</p></section>
+  <section id="services"><h2>Services</h2><p>Nos services.</p></section>
+  <section id="a-propos"><h2>À propos</h2><p>Qui sommes-nous.</p></section>
+</main>
+
+<script>
+  // Menu burger
+  const burger = document.getElementById('burger');
+  const menu = document.getElementById('menu-principal');
+
+  function setMenu(open) {
+    burger.setAttribute('aria-expanded', open);
+    menu.classList.toggle('is-open', open);
+  }
+
+  burger.addEventListener('click', () => {
+    setMenu(burger.getAttribute('aria-expanded') !== 'true');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
+      setMenu(false);
+      burger.focus();
+    }
+  });
+
+  menu.querySelectorAll('a').forEach((lien) => {
+    lien.addEventListener('click', () => {
+      menu.querySelectorAll('a').forEach((l) => l.removeAttribute('aria-current'));
+      lien.setAttribute('aria-current', 'page');
+      setMenu(false);
+    });
+  });
+
+  // Formulaire
+  const form = document.getElementById('form-contact');
+  const confirmation = document.getElementById('confirmation');
+
+  function erreur(champ, idErreur, texte) {
+    document.getElementById(idErreur).textContent = texte;
+    if (champ) champ.setAttribute('aria-invalid', texte ? 'true' : 'false');
+    return !texte;
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    confirmation.textContent = '';
+    let premier = null;
+    const check = (ok, champ) => { if (!ok && !premier) premier = champ; };
+
+    const { nom, prenom, email, tel, message, conditions } = form;
+    const motif = form.querySelector('input[name="motif"]:checked');
+    const premierRadio = form.querySelector('input[name="motif"]');
+
+    check(erreur(nom, 'nom-err', nom.value.trim() ? '' : 'Veuillez saisir votre nom.'), nom);
+    check(erreur(prenom, 'prenom-err', prenom.value.trim() ? '' : 'Veuillez saisir votre prénom.'), prenom);
+    check(erreur(email, 'email-err',
+      !email.value.trim() ? 'Veuillez saisir votre e-mail.' :
+      !email.validity.valid ? "L'e-mail n'est pas valide (ex. nom@exemple.com)." : ''), email);
+    check(erreur(tel, 'tel-err',
+      tel.value.trim() && !/^\+?[0-9\s.\-()]{8,20}$/.test(tel.value.trim()) ? "Le numéro n'est pas valide." : ''), tel);
+    check(erreur(null, 'motif-err', motif ? '' : 'Veuillez choisir un motif.'), premierRadio);
+    check(erreur(message, 'message-err', message.value.trim().length >= 20 ? '' : 'Le message doit faire au moins 20 caractères.'), message);
+    check(erreur(conditions, 'conditions-err', conditions.checked ? '' : 'Vous devez accepter les conditions.'), conditions);
+
+    if (premier) { premier.focus(); return; }
+
+    const p = document.createElement('p');
+    p.textContent = `Merci ${prenom.value.trim()}, votre message a bien été envoyé.`;
+    confirmation.appendChild(p);
+    form.reset();
+    form.querySelectorAll('[aria-invalid]').forEach((el) => el.setAttribute('aria-invalid', 'false'));
+  });
+</script>
+</body>
+</html>

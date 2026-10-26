@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  *:focus { outline: none; }
+
+  body { font-family: Arial, sans-serif; background: #f4f4f4; color: #333; }
+
+  .header {
+    position: relative;
+    background: #2c3e50;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+  }
+  .logo { font-size: 22px; font-weight: bold; }
+  .nav { display: flex; gap: 25px; }
+  .nav-item { cursor: pointer; color: #bdc3c7; font-size: 15px; }
+  .nav-item:hover { color: #fff; }
+
+  .burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .burger span { display: block; width: 26px; height: 3px; background: #fff; }
+
+  main { max-width: 760px; margin: 40px auto; padding: 0 20px; }
+  .section {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+  }
+  .titre { font-size: 26px; font-weight: bold; margin-bottom: 15px; color: #2c3e50; }
+  .section p { line-height: 1.6; color: #666; }
+
+  .row { display: flex; gap: 15px; }
+  .field { flex: 1; margin-bottom: 18px; }
+  .field label, .txt { display: block; font-size: 13px; color: #999; margin-bottom: 6px; }
+  .field input[type="text"], .field textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .radios { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; }
+  .cgu { font-size: 14px; color: #666; }
+
+  .btn-envoyer {
+    display: inline-block;
+    background: #27ae60;
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .btn-envoyer:hover { background: #219150; }
+
+  #erreur { display: none; margin-top: 15px; color: #e74c3c; font-size: 14px; }
+  #confirmation {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    background: #d4edda;
+    color: #155724;
+    border-radius: 4px;
+  }
+
+  .footer { text-align: center; padding: 20px; color: #aaa; font-size: 12px; }
+
+  @media (max-width: 700px) {
+    .burger { display: flex; }
+    .nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background: #2c3e50;
+      padding: 20px 30px;
+      gap: 15px;
+    }
+    .nav.open { display: flex; }
+    .row { flex-direction: column; gap: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">MonSite</div>
+  <div class="burger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="nav" id="nav">
+    <div class="nav-item" onclick="aller('accueil')">Accueil</div>
+    <div class="nav-item" onclick="aller('services')">Services</div>
+    <div class="nav-item" onclick="aller('apropos')">À propos</div>
+    <div class="nav-item" onclick="aller('contact')">Contact</div>
+  </div>
+</div>
+
+<main>
+  <div class="section" id="accueil">
+    <div class="titre">Bienvenue</div>
+    <p>Bienvenue sur notre site. Nous vous accompagnons dans tous vos projets numériques.</p>
+  </div>
+
+  <div class="section" id="services">
+    <div class="titre">Nos services</div>
+    <p>Création de sites web, maintenance, référencement et conseil.</p>
+  </div>
+
+  <div class="section" id="apropos">
+    <div class="titre">À propos</div>
+    <p>Une petite équipe passionnée, au service de ses clients depuis 2015.</p>
+  </div>
+
+  <div class="section" id="contact">
+    <div class="titre">Contactez-nous</div>
+
+    <form id="form" onsubmit="return false">
+      <div class="row">
+        <div class="field">
+          <input type="text" id="nom" placeholder="Nom" tabindex="7">
+        </div>
+        <div class="field">
+          <label>Prénom</label>
+          <input type="text" id="prenom" tabindex="3">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="mail">E-mail</label>
+          <input type="text" id="email" tabindex="12">
+        </div>
+        <div class="field">
+          <input type="text" id="tel" placeholder="Téléphone" tabindex="1">
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="txt">Motif de votre demande</span>
+        <div class="radios">
+          <div><input type="radio" name="motif" value="Demande de devis" tabindex="9"> Demande de devis</div>
+          <div><input type="radio" name="motif" value="Information" tabindex="4"> Information</div>
+          <div><input type="radio" name="motif" value="Réclamation" tabindex="15"> Réclamation</div>
+          <div><input type="radio" name="motif" value="Autre" tabindex="2"> Autre</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="msg">Votre message</label>
+        <textarea id="message" rows="5" tabindex="6"></textarea>
+      </div>
+
+      <div class="field">
+        <input type="checkbox" id="cgu" tabindex="11">
+        <span class="cgu">J'accepte les conditions générales d'utilisation</span>
+      </div>
+
+      <div class="btn-envoyer" onclick="envoyer()">Envoyer</div>
+
+      <div id="erreur"></div>
+      <div id="confirmation"></div>
+    </form>
+  </div>
+</main>
+
+<div class="footer">© 2026 MonSite</div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('nav').classList.toggle('open');
+  }
+
+  function aller(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('nav').classList.remove('open');
+  }
+
+  function envoyer() {
+    var nom = document.getElementById('nom').value.trim();
+    var prenom = document.getElementById('prenom').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var motif = document.querySelector('input[name="motif"]:checked');
+    var cgu = document.getElementById('cgu').checked;
+    var erreur = document.getElementById('erreur');
+    var confirmation = document.getElementById('confirmation');
+
+    if (!nom || !prenom || !email || !motif || !cgu) {
+      erreur.textContent = 'Formulaire incomplet.';
+      erreur.style.display = 'block';
+      confirmation.style.display = 'none';
+      return;
+    }
+
+    erreur.style.display = 'none';
+    confirmation.textContent = 'Merci ' + prenom + ' ' + nom + ', votre message (' + motif.value + ') a bien été envoyé. Nous vous répondrons à ' + email + '.';
+    confirmation.style.display = 'block';
+    document.getElementById('form').reset();
+  }
+</script>
+
+</body>
+</html>

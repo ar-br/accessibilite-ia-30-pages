@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>page</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  *:focus {
+    outline: none;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #999;
+  }
+
+  .top {
+    background: #2b2b2b;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    color: #555;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .menu {
+    display: flex;
+    gap: 25px;
+  }
+
+  .lien {
+    color: #777;
+    cursor: pointer;
+    font-size: 15px;
+  }
+
+  .lien:hover {
+    color: #fff;
+  }
+
+  .burger {
+    display: none;
+    cursor: pointer;
+  }
+
+  .burger div {
+    width: 28px;
+    height: 3px;
+    background: #fff;
+    margin: 5px 0;
+  }
+
+  .bloc {
+    max-width: 650px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+  }
+
+  .titre {
+    font-size: 26px;
+    color: #bbb;
+    margin-bottom: 25px;
+  }
+
+  .ligne {
+    margin-bottom: 18px;
+  }
+
+  .txt {
+    font-size: 13px;
+    color: #aaa;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #ccc;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #ddd;
+  }
+
+  textarea {
+    height: 120px;
+    resize: none;
+  }
+
+  .radios span {
+    margin-right: 15px;
+    font-size: 14px;
+  }
+
+  .envoyer {
+    background: #9ccf9c;
+    color: #fff;
+    padding: 12px 30px;
+    display: inline-block;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .envoyer:hover {
+    background: #8bbf8b;
+  }
+
+  .confirm {
+    margin-top: 20px;
+    color: #b5e0b5;
+    font-size: 14px;
+  }
+
+  .rouge {
+    color: #f3b3b3;
+  }
+
+  @media (max-width: 700px) {
+    .menu {
+      display: none;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      background: #2b2b2b;
+      flex-direction: column;
+      padding: 20px 30px;
+    }
+
+    .menu.ouvert {
+      display: flex;
+    }
+
+    .burger {
+      display: block;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="logo">MonSite</div>
+
+  <div class="burger" onclick="ouvrirMenu()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <div class="menu" id="menu">
+    <div class="lien" onclick="window.location='#accueil'">Accueil</div>
+    <div class="lien" onclick="window.location='#services'">Services</div>
+    <div class="lien" onclick="window.location='#apropos'">À propos</div>
+    <div class="lien" onclick="window.location='#contact'">Contact</div>
+  </div>
+</div>
+
+<div class="bloc" id="contact">
+  <div class="titre">Contactez-nous</div>
+
+  <div class="ligne">
+    <label class="txt">Nom</label>
+    <input type="text" id="nom" tabindex="4">
+  </div>
+
+  <div class="ligne">
+    <span class="txt">Prénom</span>
+    <input type="text" id="prenom" tabindex="7">
+  </div>
+
+  <div class="ligne">
+    <input type="email" id="mail" placeholder="E-mail" tabindex="2">
+  </div>
+
+  <div class="ligne">
+    <label class="txt" for="telephone">Téléphone</label>
+    <input type="tel" id="tel" tabindex="9">
+  </div>
+
+  <div class="ligne radios">
+    <span class="txt">Motif</span>
+    <input type="radio" name="motif" value="info" tabindex="1"><span>Information</span>
+    <input type="radio" name="motif" value="devis" tabindex="12"><span>Devis</span>
+    <input type="radio" name="motif" value="sav" tabindex="5"><span>Réclamation</span>
+    <input type="radio" name="motif" value="autre" tabindex="3"><span>Autre</span>
+  </div>
+
+  <div class="ligne">
+    <textarea id="message" placeholder="Votre message..." tabindex="10"></textarea>
+  </div>
+
+  <div class="ligne">
+    <input type="checkbox" id="cgu" tabindex="6"> <span>J'accepte les conditions</span>
+  </div>
+
+  <div class="envoyer" onclick="envoyer()">Envoyer</div>
+
+  <div class="confirm" id="confirm"></div>
+</div>
+
+<script>
+  function ouvrirMenu() {
+    document.getElementById("menu").classList.toggle("ouvert");
+  }
+
+  function envoyer() {
+    var nom = document.getElementById("nom").value;
+    var prenom = document.getElementById("prenom").value;
+    var mail = document.getElementById("mail").value;
+    var cgu = document.getElementById("cgu").checked;
+    var zone = document.getElementById("confirm");
+
+    if (nom === "" || prenom === "" || mail === "" || !cgu) {
+      document.getElementById("nom").style.borderColor = nom === "" ? "#f3b3b3" : "#eee";
+      document.getElementById("prenom").style.borderColor = prenom === "" ? "#f3b3b3" : "#eee";
+      document.getElementById("mail").style.borderColor = mail === "" ? "#f3b3b3" : "#eee";
+      zone.className = "confirm rouge";
+      zone.innerHTML = "Erreur";
+      return;
+    }
+
+    zone.className = "confirm";
+    zone.innerHTML = "Merci " + prenom + " " + nom + ", votre message a bien été envoyé !";
+  }
+</script>
+
+</body>
+</html>

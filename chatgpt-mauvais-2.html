@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Exercice accessibilité</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f3f5;
+            color: #333;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links div {
+            cursor: pointer;
+            color: white;
+        }
+
+        .burger {
+            display: none;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        main {
+            max-width: 750px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #222;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group div:first-child {
+            margin-bottom: 8px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .radio-option,
+        .checkbox-option {
+            margin: 10px 0;
+        }
+
+        .radio-option input,
+        .checkbox-option input {
+            width: auto;
+        }
+
+        .send-button {
+            display: inline-block;
+            background: #1769aa;
+            color: white;
+            padding: 14px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            border: none;
+        }
+
+        .send-button:hover {
+            background: #0e4f84;
+        }
+
+        #confirmation {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #d4edda;
+            color: #155724;
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #222;
+            color: white;
+        }
+
+        @media (max-width: 650px) {
+            .burger {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: #222;
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+            .nav-links div {
+                padding: 15px 20px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            main {
+                margin: 20px 12px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="logo">MonSite</div>
+
+        <div class="burger" onclick="toggleMenu()">☰</div>
+
+        <nav class="nav-links" id="navigation">
+            <div onclick="goTo('accueil')">Accueil</div>
+            <div onclick="goTo('services')">Services</div>
+            <div onclick="goTo('apropos')">À propos</div>
+            <div onclick="goTo('contact')">Contact</div>
+        </nav>
+    </div>
+</header>
+
+<main id="contact">
+    <h1>Contactez-nous</h1>
+
+    <p>
+        Vous avez une question ou souhaitez obtenir des informations ?
+        Remplissez le formulaire ci-dessous.
+    </p>
+
+    <form id="contactForm">
+
+        <div class="form-group">
+            <div>Nom</div>
+            <input type="text" name="nom" placeholder="Votre nom" tabindex="5">
+        </div>
+
+        <div class="form-group">
+            <div>Prénom</div>
+            <input type="text" name="prenom" placeholder="Votre prénom" tabindex="2">
+        </div>
+
+        <div class="form-group">
+            <div>E-mail</div>
+            <input type="email" name="email" placeholder="exemple@email.com" tabindex="8">
+        </div>
+
+        <div class="form-group">
+            <div>Téléphone</div>
+            <input type="tel" name="telephone" placeholder="Votre numéro" tabindex="1">
+        </div>
+
+        <div class="form-group">
+            <div>Motif du contact</div>
+
+            <div class="radio-option">
+                <input type="radio" name="motif" value="information" id="motif1">
+                <label for="motif1">Demande d'information</label>
+            </div>
+
+            <div class="radio-option">
+                <input type="radio" name="motif" value="devis" id="motif2">
+                <label for="motif2">Demande de devis</label>
+            </div>
+
+            <div class="radio-option">
+                <input type="radio" name="motif" value="autre" id="motif3">
+                <label for="motif3">Autre demande</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>Message</div>
+            <textarea name="message" placeholder="Écrivez votre message..." tabindex="3"></textarea>
+        </div>
+
+        <div class="form-group">
+            <div class="checkbox-option">
+                <input type="checkbox" name="conditions" id="conditions" tabindex="10">
+                <label for="conditions">
+                    J'accepte les conditions d'utilisation
+                </label>
+            </div>
+        </div>
+
+        <div class="send-button" onclick="sendForm()" tabindex="-1">
+            Envoyer le message
+        </div>
+
+        <div id="confirmation">
+            Votre message a été envoyé avec succès !
+        </div>
+
+    </form>
+</main>
+
+<footer>
+    <p>© 2026 MonSite - Tous droits réservés</p>
+</footer>
+
+<script>
+    function toggleMenu() {
+        const navigation = document.getElementById("navigation");
+        navigation.classList.toggle("active");
+    }
+
+    function goTo(section) {
+        if (section === "contact") {
+            document.getElementById("contact").scrollIntoView();
+        } else {
+            alert("Section " + section + " sélectionnée.");
+        }
+
+        document.getElementById("navigation").classList.remove("active");
+    }
+
+    function sendForm() {
+        const form = document.getElementById("contactForm");
+
+        const nom = form.elements["nom"].value;
+        const prenom = form.elements["prenom"].value;
+        const email = form.elements["email"].value;
+        const message = form.elements["message"].value;
+        const conditions = form.elements["conditions"].checked;
+
+        if (
+            nom.trim() === "" ||
+            prenom.trim() === "" ||
+            email.trim() === "" ||
+            message.trim() === "" ||
+            !conditions
+        ) {
+            alert("Veuillez remplir les champs obligatoires et accepter les conditions.");
+            return;
+        }
+
+        document.getElementById("confirmation").style.display = "block";
+
+        form.reset();
+    }
+</script>
+
+</body>
+</html>

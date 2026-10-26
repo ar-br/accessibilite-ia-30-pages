@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez nos services et contactez notre équipe grâce à notre formulaire de contact accessible.">
+    <title>Accueil | Horizon</title>
+
+    <style>
+        /* =========================
+           Variables et réinitialisation
+        ========================== */
+        :root {
+            --color-primary: #245c4a;
+            --color-primary-dark: #194333;
+            --color-background: #f5f7f5;
+            --color-surface: #ffffff;
+            --color-text: #202923;
+            --color-muted: #59665e;
+            --color-border: #cbd5ce;
+            --color-success: #176b3a;
+            --color-success-bg: #e8f6ec;
+            --color-error: #b42318;
+            --color-focus: #f0a202;
+            --radius: 12px;
+            --shadow: 0 12px 35px rgba(26, 56, 40, 0.08);
+            --max-width: 1120px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-text);
+            background: var(--color-background);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        a {
+            color: var(--color-primary);
+        }
+
+        a:hover {
+            color: var(--color-primary-dark);
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        button,
+        input,
+        textarea,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible,
+        a:focus-visible {
+            outline: 3px solid var(--color-focus);
+            outline-offset: 4px;
+        }
+
+        section {
+            scroll-margin-top: 100px;
+        }
+
+        .container {
+            width: min(100% - 40px, var(--max-width));
+            margin-inline: auto;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 16px;
+            z-index: 1000;
+            padding: 12px 18px;
+            color: #ffffff;
+            background: var(--color-primary-dark);
+            border-radius: 6px;
+        }
+
+        .skip-link:focus {
+            top: 16px;
+        }
+
+        .section-heading {
+            margin: 0 0 12px;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            line-height: 1.2;
+            letter-spacing: -0.04em;
+        }
+
+        .section-description {
+            max-width: 620px;
+            margin: 0 auto;
+            color: var(--color-muted);
+        }
+
+        /* =========================
+           Navigation
+        ========================== */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .navbar {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--color-primary);
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-decoration: none;
+            letter-spacing: -0.04em;
+        }
+
+        .logo-mark {
+            display: inline-grid;
+            place-items: center;
+            width: 36px;
+            height: 36px;
+            color: #ffffff;
+            background: var(--color-primary);
+            border-radius: 10px;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav-links a {
+            display: inline-block;
+            padding: 10px 0;
+            color: var(--color-text);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover,
+        .nav-links a[aria-current="page"] {
+            color: var(--color-primary);
+        }
+
+        .nav-links a[aria-current="page"] {
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 6px;
+        }
+
+        .menu-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 46px;
+            height: 46px;
+            padding: 10px;
+            color: var(--color-text);
+            background: transparent;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .burger-icon,
+        .burger-icon::before,
+        .burger-icon::after {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+        }
+
+        .burger-icon {
+            position: relative;
+        }
+
+        .burger-icon::before,
+        .burger-icon::after {
+            position: absolute;
+            left: 0;
+            content: "";
+        }
+
+        .burger-icon::before {
+            top: -7px;
+        }
+
+        .burger-icon::after {
+            top: 7px;
+        }
+
+        /* =========================
+           Accueil
+        ========================== */
+        .hero {
+            padding: 100px 0;
+            background:
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(36, 92, 74, 0.12),
+                    transparent 35%
+                ),
+                var(--color-background);
+        }
+
+        .hero-content {
+            max-width: 760px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin-bottom: 18px;
+            padding: 6px 12px;
+            color: var(--color-primary-dark);
+            background: #e2eee6;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .hero h1 {
+            max-width: 700px;
+            margin: 0 0 20px;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.06em;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 0 30px;
+            color: var(--color-muted);
+            font-size: 1.15rem;
+        }
+
+        .button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 48px;
+            padding: 12px 22px;
+            color: #ffffff;
+            background: var(--color-primary);
+            border: 2px solid var(--color-primary);
+            border-radius: 8px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition:
+                background-color 160ms ease,
+                border-color 160ms ease,
+                transform 160ms ease;
+        }
+
+        .button:hover {
+            color: #ffffff;
+            background: var(--color-primary-dark);
+            border-color: var(--color-primary-dark);
+        }
+
+        .button:active {
+            transform: translateY(1px);
+        }
+
+        /* =========================
+           Services
+        ========================== */
+        .services {
+            padding: 88px 0;
+            background: var(--color-surface);
+        }
+
+        .section-intro {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .service-card {
+            padding: 28px;
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+        }
+
+        .service-icon {
+            display: grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 18px;
+            background: #e2eee6;
+            border-radius: 12px;
+            font-size: 1.4rem;
+        }
+
+        .service-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .service-card p {
+            margin: 0;
+            color: var(--color-muted);
+        }
+
+        /* =========================
+           À propos
+        ========================== */
+        .about {
+            padding: 88px 0;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .about-content p {
+            color: var(--color-muted);
+        }
+
+        .about-panel {
+            padding: 36px;
+            background: #e2eee6;
+            border-radius: var(--radius);
+        }
+
+        .about-panel h3 {
+            margin-top: 0;
+            color: var(--color-primary-dark);
+        }
+
+        .about-list {
+            display: grid;
+            gap: 12px;
+            margin: 0;
+            padding-left: 22px;
+        }
+
+        /* =========================
+           Contact
+        ========================== */
+        .contact {
+            padding: 88px 0 100px;
+            background: var(--color-surface);
+        }
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            align-items: start;
+            gap: 48px;
+        }
+
+        .contact-info {
+            padding-top: 16px;
+        }
+
+        .contact-info p {
+            color: var(--color-muted);
+        }
+
+        .contact-details {
+            display: grid;
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        .contact-detail {
+            padding: 18px;
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: 10px;
+        }
+
+        .contact-detail strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .contact-form {
+            padding: clamp(22px, 4vw, 36px);
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .form-heading {
+            margin: 0 0 8px;
+            font-size: 1.6rem;
+            line-height: 1.3;
+        }
+
+        .form-intro {
+            margin: 0 0 28px;
+            color: var(--color-muted);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            min-width: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 700;
+        }
+
+        .required-indicator {
+            color: var(--color-error);
+        }
+
+        .field-help {
+            display: block;
+            margin-top: 6px;
+            color: var(--color-muted);
+            font-size: 0.88rem;
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            min-height: 48px;
+            padding: 11px 13px;
+            color: var(--color-text);
+            background: var(--color-surface);
+            border: 1px solid #8b9990;
+            border-radius: 7px;
+        }
+
+        .form-control::placeholder {
+            color: #69756d;
+            opacity: 1;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-control:focus-visible {
+            border-color: var(--color-primary);
+        }
+
+        .form-control[aria-invalid="true"] {
+            border-color: var(--color-error);
+        }
+
+        .radio-group {
+            min-width: 0;
+            margin: 0 0 24px;
+            padding: 18px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+        }
+
+        .radio-group legend {
+            padding: 0 6px;
+            font-weight: 700;
+        }
+
+        .radio-options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .radio-option,
+        .checkbox-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .radio-option input,
+        .checkbox-option input {
+            flex: 0 0 auto;
+            width: 20px;
+            height: 20px;
+            margin: 3px 0 0;
+            accent-color: var(--color-primary);
+            cursor: pointer;
+        }
+
+        .checkbox-option {
+            margin-bottom: 24px;
+        }
+
+        .checkbox-option a {
+            font-weight: 600;
+            text-underline-offset: 3px;
+        }
+
+        .form-error {
+            display: block;
+            margin-top: 6px;
+            color: var(--color-error);
+            font-size: 0.9rem;
+        }
+
+        .form-error:empty {
+            display: none;
+        }
+
+        .submit-button {
+            width: 100%;
+            min-height: 52px;
+        }
+
+        .form-status {
+            margin-top: 20px;
+            padding: 14px 16px;
+            border-radius: 8px;
+        }
+
+        .form-status:empty {
+            display: none;
+        }
+
+        .form-status.success {
+            color: var(--color-success);
+            background: var(--color-success-bg);
+            border: 1px solid #8ac69c;
+        }
+
+        .form-status.error {
+            color: var(--color-error);
+            background: #fff0ef;
+            border: 1px solid #e8a39e;
+        }
+
+        /* =========================
+           Pied de page
+        ========================== */
+        .site-footer {
+            padding: 28px 0;
+            color: #e8eee9;
+            background: #193b2d;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .footer-content p {
+            margin: 0;
+        }
+
+        .footer-content a {
+            color: #ffffff;
+            text-underline-offset: 4px;
+        }
+
+        /* =========================
+           Responsive
+        ========================== */
+        @media (max-width: 800px) {
+            .menu-toggle {
+                display: inline-flex;
+            }
+
+            .navbar {
+                position: relative;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                left: 0;
+                display: none;
+                align-items: stretch;
+                gap: 0;
+                padding: 12px 20px 20px;
+                background: var(--color-surface);
+                border: 1px solid var(--color-border);
+                border-top: 0;
+                box-shadow: var(--shadow);
+            }
+
+            .nav-links.is-open {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 13px 4px;
+            }
+
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-content,
+            .contact-layout {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .hero {
+                padding: 76px 0;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .container {
+                width: min(100% - 28px, var(--max-width));
+            }
+
+            .form-grid,
+            .radio-options {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-group.full-width {
+                grid-column: auto;
+            }
+
+            .services,
+            .about,
+            .contact {
+                padding: 64px 0;
+            }
+
+            .about-panel {
+                padding: 24px;
+            }
+
+            .footer-content {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        /* Respecte les préférences de mouvement de l'utilisateur. */
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a class="skip-link" href="#contenu">
+        Passer au contenu principal
+    </a>
+
+    <header class="site-header">
+        <nav class="navbar container" aria-label="Navigation principale">
+            <a class="logo" href="#accueil" aria-label="Horizon, accueil">
+                <span class="logo-mark" aria-hidden="true">H</span>
+                <span>Horizon</span>
+            </a>
+
+            <button
+                class="menu-toggle"
+                type="button"
+                aria-label="Ouvrir le menu de navigation"
+                aria-expanded="false"
+                aria-controls="navigation-principale"
+            >
+                <span class="burger-icon" aria-hidden="true"></span>
+            </button>
+
+            <ul class="nav-links" id="navigation-principale">
+                <li>
+                    <a href="#accueil" aria-current="page">Accueil</a>
+                </li>
+                <li>
+                    <a href="#services">Services</a>
+                </li>
+                <li>
+                    <a href="#a-propos">À propos</a>
+                </li>
+                <li>
+                    <a href="#contact">Contact</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="contenu">
+        <!-- Accueil -->
+        <section class="hero" id="accueil" aria-labelledby="hero-title">
+            <div class="container">
+                <div class="hero-content">
+                    <span class="eyebrow">Bienvenue chez Horizon</span>
+
+                    <h1 id="hero-title">
+                        Donnons vie à vos idées.
+                    </h1>
+
+                    <p>
+                        Nous vous accompagnons dans vos projets avec une
+                        approche humaine, des solutions adaptées et une
+                        attention particulière portée à chaque détail.
+                    </p>
+
+                    <a class="button" href="#contact">
+                        Parlons de votre projet
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section class="services" id="services" aria-labelledby="services-title">
+            <div class="container">
+                <div class="section-intro">
+                    <h2 class="section-heading" id="services-title">
+                        Nos services
+                    </h2>
+
+                    <p class="section-description">
+                        Des solutions pensées pour répondre à vos besoins
+                        et vous aider à concrétiser vos projets.
+                    </p>
+                </div>
+
+                <div class="service-grid">
+                    <article class="service-card">
+                        <div class="service-icon" aria-hidden="true">✦</div>
+                        <h3>Conseil personnalisé</h3>
+                        <p>
+                            Nous prenons le temps de comprendre vos objectifs
+                            pour vous proposer des recommandations adaptées
+                            à votre situation.
+                        </p>
+                    </article>
+
+                    <article class="service-card">
+                        <div class="service-icon" aria-hidden="true">◇</div>
+                        <h3>Solutions sur mesure</h3>
+                        <p>
+                            Chaque projet est différent. Nous construisons
+                            avec vous une solution cohérente avec vos besoins
+                            et vos priorités.
+                        </p>
+                    </article>
+
+                    <article class="service-card">
+                        <div class="service-icon" aria-hidden="true">↗</div>
+                        <h3>Accompagnement</h3>
+                        <p>
+                            Nous vous accompagnons à chaque étape pour
+                            avancer sereinement et atteindre les résultats
+                            que vous recherchez.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- À propos -->
+        <section class="about" id="a-propos" aria-labelledby="about-title">
+            <div class="container">
+                <div class="about-content">
+                    <div>
+                        <span class="eyebrow">Qui sommes-nous ?</span>
+
+                        <h2 class="section-heading" id="about-title">
+                            Une approche simple et humaine
+                        </h2>
+
+                        <p>
+                            Chez Horizon, nous croyons que les meilleurs
+                            projets commencent par une bonne écoute et une
+                            relation de confiance.
+                        </p>
+
+                        <p>
+                            Notre objectif est de vous apporter des réponses
+                            claires, un accompagnement attentif et des
+                            solutions pensées pour durer.
+                        </p>
+
+                        <a class="button" href="#contact">
+                            Nous contacter
+                        </a>
+                    </div>
+
+                    <aside class="about-panel" aria-labelledby="values-title">
+                        <h3 id="values-title">Nos engagements</h3>
+
+                        <ul class="about-list">
+                            <li>Une écoute attentive de vos besoins.</li>
+                            <li>Une communication claire et transparente.</li>
+                            <li>Des solutions adaptées à votre projet.</li>
+                            <li>Un accompagnement personnalisé.</li>
+                        </ul>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section class="contact" id="contact" aria-labelledby="contact-title">
+            <div class="container">
+                <div class="section-intro">
+                    <h2 class="section-heading" id="contact-title">
+                        Contactez-nous
+                    </h2>
+
+                    <p class="section-description">
+                        Une question, une idée ou un projet ?
+                        Envoyez-nous un message.
+                    </p>
+                </div>
+
+                <div class="contact-layout">
+                    <div class="contact-info">
+                        <h3>Parlons ensemble</h3>
+
+                        <p>
+                            Remplissez le formulaire en précisant votre
+                            demande. Nous pourrons ainsi mieux comprendre
+                            vos besoins.
+                        </p>
+
+                        <div class="contact-details">
+                            <div class="contact-detail">
+                                <strong>Notre engagement</strong>
+                                <span>Vous écouter et vous conseiller.</span>
+                            </div>
+
+                            <div class="contact-detail">
+                                <strong>Votre message</strong>
+                                <span>
+                                    Décrivez votre projet avec les détails
+                                    qui vous semblent utiles.
+                                </span>
+                            </div>
+
+                            <div class="contact-detail">
+                                <strong>Notre objectif</strong>
+                                <span>Vous apporter une réponse adaptée.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="contact-form" id="contact-form">
+                        <h3 class="form-heading">Envoyer un message</h3>
+
+                        <p class="form-intro">
+                            Les champs marqués d'un
+                            <span class="required-indicator" aria-hidden="true">*</span>
+                            sont obligatoires.
+                        </p>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="nom">
+                                    Nom
+                                    <span class="required-indicator" aria-hidden="true">*</span>
+                                </label>
+
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    id="nom"
+                                    name="nom"
+                                    autocomplete="family-name"
+                                    required
+                                    maxlength="100"
+                                    aria-describedby="nom-error"
+                                >
+
+                                <span class="form-error" id="nom-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="prenom">
+                                    Prénom
+                                    <span class="required-indicator" aria-hidden="true">*</span>
+                                </label>
+
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    id="prenom"
+                                    name="prenom"
+                                    autocomplete="given-name"
+                                    required
+                                    maxlength="100"
+                                    aria-describedby="prenom-error"
+                                >
+
+                                <span class="form-error" id="prenom-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="email">
+                                    Adresse e-mail
+                                    <span class="required-indicator" aria-hidden="true">*</span>
+                                </label>
+
+                                <input
+                                    class="form-control"
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    autocomplete="email"
+                                    inputmode="email"
+                                    required
+                                    maxlength="254"
+                                    aria-describedby="email-help email-error"
+                                >
+
+                                <span class="field-help" id="email-help">
+                                    Exemple : nom@exemple.ch
+                                </span>
+
+                                <span class="form-error" id="email-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="telephone">
+                                    Téléphone
+                                </label>
+
+                                <input
+                                    class="form-control"
+                                    type="tel"
+                                    id="telephone"
+                                    name="telephone"
+                                    autocomplete="tel"
+                                    inputmode="tel"
+                                    maxlength="30"
+                                    aria-describedby="telephone-help telephone-error"
+                                >
+
+                                <span class="field-help" id="telephone-help">
+                                    Facultatif.
+                                </span>
+
+                                <span class="form-error" id="telephone-error"></span>
+                            </div>
+                        </div>
+
+                        <fieldset
+                            class="radio-group"
+                            aria-describedby="motif-error"
+                        >
+                            <legend>
+                                Motif de contact
+                                <span class="required-indicator" aria-hidden="true">*</span>
+                            </legend>
+
+                            <div class="radio-options">
+                                <label class="radio-option" for="motif-information">
+                                    <input
+                                        type="radio"
+                                        id="motif-information"
+                                        name="motif"
+                                        value="information"
+                                        required
+                                    >
+                                    <span>Demande d'information</span>
+                                </label>
+
+                                <label class="radio-option" for="motif-devis">
+                                    <input
+                                        type="radio"
+                                        id="motif-devis"
+                                        name="motif"
+                                        value="devis"
+                                    >
+                                    <span>Demande de devis</span>
+                                </label>
+
+                                <label class="radio-option" for="motif-projet">
+                                    <input
+                                        type="radio"
+                                        id="motif-projet"
+                                        name="motif"
+                                        value="projet"
+                                    >
+                                    <span>Nouveau projet</span>
+                                </label>
+
+                                <label class="radio-option" for="motif-autre">
+                                    <input
+                                        type="radio"
+                                        id="motif-autre"
+                                        name="motif"
+                                        value="autre"
+                                    >
+                                    <span>Autre demande</span>
+                                </label>
+                            </div>
+
+                            <span class="form-error" id="motif-error"></span>
+                        </fieldset>
+
+                        <div class="form-group">
+                            <label class="form-label" for="message">
+                                Votre message
+                                <span class="required-indicator" aria-hidden="true">*</span>
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                id="message"
+                                name="message"
+                                rows="6"
+                                required
+                                minlength="10"
+                                maxlength="3000"
+                                aria-describedby="message-help message-error"
+                                placeholder="Décrivez votre demande..."
+                            ></textarea>
+
+                            <span class="field-help" id="message-help">
+                                Entre 10 et 3 000 caractères.
+                            </span>
+
+                            <span class="form-error" id="message-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-option" for="conditions">
+                                <input
+                                    type="checkbox"
+                                    id="conditions"
+                                    name="conditions"
+                                    required
+                                    aria-describedby="conditions-error"
+                                >
+
+                                <span>
+                                    J'accepte les
+                                    <a href="#conditions-legales">
+                                        conditions d'utilisation
+                                    </a>
+                                    et le traitement de mes informations
+                                    pour répondre à ma demande.
+                                    <span class="required-indicator" aria-hidden="true">*</span>
+                                </span>
+                            </label>
+
+                            <span class="form-error" id="conditions-error"></span>
+                        </div>
+
+                        <button class="button submit-button" type="submit">
+                            Envoyer mon message
+                        </button>
+
+                        <div
+                            class="form-status"
+                            id="form-status"
+                            role="status"
+                            aria-live="polite"
+                            aria-atomic="true"
+                            tabindex="-1"
+                        ></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Informations légales -->
+        <section
+            id="conditions-legales"
+            class="about"
+            aria-labelledby="conditions-title"
+        >
+            <div class="container">
+                <h2 class="section-heading" id="conditions-title">
+                    Conditions d'utilisation
+                </h2>
+
+                <p>
+                    Les informations transmises via ce formulaire sont
+                    destinées à permettre le traitement de votre demande.
+                    Cette démonstration ne transmet ni ne stocke les
+                    informations sur un serveur.
+                </p>
+
+                <p>
+                    Avant la mise en production, remplacez ce texte par
+                    les conditions applicables à votre activité et ajoutez
+                    une politique de confidentialité adaptée.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <p>
+                &copy; <span id="current-year"></span> Horizon.
+                Tous droits réservés.
+            </p>
+
+            <a href="#conditions-legales">
+                Conditions d'utilisation
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        "use strict";
+
+        // =========================
+        // Navigation mobile
+        // =========================
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navigation = document.querySelector("#navigation-principale");
+        const navigationLinks = navigation.querySelectorAll("a");
+
+        function setMenuOpen(isOpen) {
+            navigation.classList.toggle("is-open", isOpen);
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+            menuToggle.setAttribute(
+                "aria-label",
+                isOpen
+                    ? "Fermer le menu de navigation"
+                    : "Ouvrir le menu de navigation"
+            );
+        }
+
+        menuToggle.addEventListener("click", () => {
+            const isExpanded =
+                menuToggle.getAttribute("aria-expanded") === "true";
+
+            setMenuOpen(!isExpanded);
+        });
+
+        navigationLinks.forEach((link) => {
+            link.addEventListener("click", () => {
+                setMenuOpen(false);
+            });
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (
+                event.key === "Escape" &&
+                menuToggle.getAttribute("aria-expanded") === "true"
+            ) {
+                setMenuOpen(false);
+                menuToggle.focus();
+            }
+        });
+
+        document.addEventListener("click", (event) => {
+            if (
+                !navigation.contains(event.target) &&
+                !menuToggle.contains(event.target)
+            ) {
+                setMenuOpen(false);
+            }
+        });
+
+        // Ferme le menu mobile si la fenêtre devient suffisamment large.
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 800) {
+                setMenuOpen(false);
+            }
+        });
+
+        // =========================
+        // Lien actif de navigation
+        // =========================
+        const pageSections = document.querySelectorAll(
+            "main section[id]"
+        );
+
+        const sectionObserver = new IntersectionObserver(
+            (entries) => {
+                const visibleSections = entries
+                    .filter((entry) => entry.isIntersecting)
+                    .sort(
+                        (a, b) =>
+                            b.intersectionRatio - a.intersectionRatio
+                    );
+
+                if (visibleSections.length === 0) {
+                    return;
+                }
+
+                const activeId = visibleSections[0].target.id;
+
+                navigationLinks.forEach((link) => {
+                    if (link.getAttribute("href") === `#${activeId}`) {
+                        link.setAttribute("aria-current", "page");
+                    } else {
+                        link.removeAttribute("aria-current");
+                    }
+                });
+            },
+            {
+                rootMargin: "-20% 0px -65% 0px",
+                threshold: [0, 0.1, 0.25, 0.5]
+            }
+        );
+
+        pageSections.forEach((section) => {
+            sectionObserver.observe(section);
+        });
+
+        // =========================
+        // Formulaire de contact
+        // =========================
+        const form = document.querySelector("#contact-form");
+        const statusMessage = document.querySelector("#form-status");
+
+        const fields = {
+            nom: {
+                input: document.querySelector("#nom"),
+                error: document.querySelector("#nom-error"),
+                message: "Veuillez saisir votre nom."
+            },
+            prenom: {
+                input: document.querySelector("#prenom"),
+                error: document.querySelector("#prenom-error"),
+                message: "Veuillez saisir votre prénom."
+            },
+            email: {
+                input: document.querySelector("#email"),
+                error: document.querySelector("#email-error"),
+                message: "Veuillez saisir une adresse e-mail valide."
+            },
+            telephone: {
+                input: document.querySelector("#telephone"),
+                error: document.querySelector("#telephone-error"),
+                message: "Veuillez vérifier le numéro de téléphone."
+            },
+            message: {
+                input: document.querySelector("#message"),
+                error: document.querySelector("#message-error"),
+                message:
+                    "Votre message doit contenir entre 10 et 3 000 caractères."
+            },
+            conditions: {
+                input: document.querySelector("#conditions"),
+                error: document.querySelector("#conditions-error"),
+                message:
+                    "Veuillez accepter les conditions avant de continuer."
+            }
+        };
+
+        const motifError = document.querySelector("#motif-error");
+        const motifInputs = form.querySelectorAll('input[name="motif"]');
+
+        function setFieldError(field, message) {
+            field.error.textContent = message;
+
+            if (message) {
+                field.input.setAttribute("aria-invalid", "true");
+            } else {
+                field.input.removeAttribute("aria-invalid");
+            }
+        }
+
+        function validateField(fieldName) {
+            const field = fields[fieldName];
+            const input = field.input;
+
+            let error = "";
+
+            if (fieldName === "telephone") {
+                const value = input.value.trim();
+
+                if (
+                    value &&
+                    !/^[+()\d\s./-]{6,30}$/.test(value)
+                ) {
+                    error =
+                        "Veuillez saisir un numéro de téléphone valide.";
+                }
+            } else if (fieldName === "conditions") {
+                if (!input.checked) {
+                    error = field.message;
+                }
+            } else if (!input.validity.valid) {
+                if (input.validity.valueMissing) {
+                    error = field.message;
+                } else if (input.validity.typeMismatch) {
+                    error = field.message;
+                } else if (
+                    input.validity.tooShort ||
+                    input.validity.tooLong
+                ) {
+                    error = field.message;
+                } else {
+                    error = "Veuillez vérifier ce champ.";
+                }
+            }
+
+            setFieldError(field, error);
+
+            return error === "";
+        }
+
+        function validateMotif() {
+            const selected = form.querySelector(
+                'input[name="motif"]:checked'
+            );
+
+            motifError.textContent = selected
+                ? ""
+                : "Veuillez choisir un motif de contact.";
+
+            return Boolean(selected);
+        }
+
+        function clearStatus() {
+            statusMessage.textContent = "";
+            statusMessage.className = "form-status";
+        }
+
+        Object.keys(fields).forEach((fieldName) => {
+            const field = fields[fieldName];
+
+            const eventName =
+                fieldName === "conditions" ? "change" : "input";
+
+            field.input.addEventListener(eventName, () => {
+                validateField(fieldName);
+                clearStatus();
+            });
+
+            field.input.addEventListener("blur", () => {
+                validateField(fieldName);
+            });
+        });
+
+        motifInputs.forEach((input) => {
+            input.addEventListener("change", () => {
+                validateMotif();
+                clearStatus();
+            });
+        });
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            clearStatus();
+
+            let isValid = true;
+            let firstInvalidField = null;
+
+            Object.keys(fields).forEach((fieldName) => {
+                const valid = validateField(fieldName);
+
+                if (!valid) {
+                    isValid = false;
+
+                    if (!firstInvalidField) {
+                        firstInvalidField = fields[fieldName].input;
+                    }
+                }
+            });
+
+            const motifValid = validateMotif();
+
+            if (!motifValid) {
+                isValid = false;
+
+                if (!firstInvalidField) {
+                    firstInvalidField = motifInputs[0];
+                }
+            }
+
+            if (!isValid) {
+                statusMessage.className = "form-status error";
+                statusMessage.textContent =
+                    "Certains champs doivent être corrigés. " +
+                    "Vérifiez les indications du formulaire.";
+
+                if (firstInvalidField) {
+                    firstInvalidField.focus();
+                }
+
+                return;
+            }
+
+            const formData = new FormData(form);
+
+            const prenom = String(formData.get("prenom")).trim();
+            const nom = String(formData.get("nom")).trim();
+
+            statusMessage.className = "form-status success";
+            statusMessage.textContent =
+                `Merci ${prenom} ${nom}, votre formulaire a été validé. ` +
+                "Cette démonstration ne transmet pas encore votre message. " +
+                "Pour recevoir les demandes, connectez le formulaire à un serveur.";
+
+            form.reset();
+
+            Object.keys(fields).forEach((fieldName) => {
+                setFieldError(fields[fieldName], "");
+            });
+
+            motifError.textContent = "";
+
+            // Le message est annoncé par aria-live sans déplacer le focus.
+        });
+
+        // =========================
+        // Année dynamique
+        // =========================
+        document.querySelector("#current-year").textContent =
+            new Date().getFullYear();
+    </script>
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact – Mon Site</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1a1a1a;
+      --muted: #4a4a4a;
+      --primary: #0b5cad;
+      --primary-dark: #08427d;
+      --border: #6b6b6b;
+      --error: #b00020;
+      --success-bg: #e6f4ea;
+      --success-text: #1e5631;
+      --focus: #ff9800;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* Lien d'évitement */
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -100px;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      z-index: 100;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* Focus visible sur tous les éléments interactifs */
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    /* En-tête et navigation */
+    header {
+      background: var(--primary);
+      color: #fff;
+    }
+    .nav-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .logo {
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.25rem;
+      text-decoration: none;
+    }
+    .burger {
+      display: none;
+      background: transparent;
+      border: 2px solid #fff;
+      border-radius: 4px;
+      padding: 0.4rem;
+      cursor: pointer;
+      color: #fff;
+    }
+    .burger svg { display: block; }
+
+    .nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .nav-list a {
+      display: block;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem 0.9rem;
+      border-radius: 4px;
+    }
+    .nav-list a:hover { background: var(--primary-dark); }
+    .nav-list a[aria-current="page"] {
+      background: var(--primary-dark);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    header a:focus-visible,
+    header button:focus-visible {
+      outline-color: #fff;
+    }
+
+    @media (max-width: 700px) {
+      .burger { display: block; }
+      .nav-menu {
+        width: 100%;
+        display: none;
+      }
+      .nav-menu.is-open { display: block; }
+      .nav-list {
+        flex-direction: column;
+        padding-top: 0.75rem;
+      }
+    }
+
+    /* Contenu principal */
+    main {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem 1rem 3rem;
+    }
+    h1 { margin-top: 0; }
+
+    .required-note { color: var(--muted); }
+
+    .form-group { margin-bottom: 1.25rem; }
+
+    label,
+    legend {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      font: inherit;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      background: #fff;
+      color: var(--text);
+    }
+    textarea { min-height: 140px; resize: vertical; }
+
+    input[aria-invalid="true"],
+    textarea[aria-invalid="true"] {
+      border-color: var(--error);
+    }
+
+    .hint {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+    .error {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--error);
+      font-weight: 600;
+      margin-top: 0.25rem;
+    }
+    .error:empty { display: none; }
+
+    fieldset {
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      padding: 0.75rem 1rem 1rem;
+      margin: 0 0 1.25rem;
+    }
+    fieldset[aria-invalid="true"] { border-color: var(--error); }
+    legend { padding: 0 0.25rem; }
+
+    .choice {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.35rem 0;
+    }
+    .choice label {
+      font-weight: normal;
+      margin: 0;
+      cursor: pointer;
+    }
+    input[type="radio"],
+    input[type="checkbox"] {
+      width: 1.2rem;
+      height: 1.2rem;
+      margin: 0;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .btn-submit {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.75rem 1.5rem;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-submit:hover { background: var(--primary-dark); }
+
+    .confirmation {
+      margin-top: 1.5rem;
+    }
+    .confirmation p {
+      background: var(--success-bg);
+      color: var(--success-text);
+      border-left: 5px solid var(--success-text);
+      padding: 1rem;
+      border-radius: 4px;
+      margin: 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      color: var(--muted);
+      border-top: 1px solid #ddd;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .nav-list a, .btn-submit { transition: background-color 0.2s; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#contenu" class="skip-link">Aller au contenu principal</a>
+
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo">Mon Site</a>
+
+      <button type="button" class="burger" id="burger"
+              aria-label="Menu"
+              aria-expanded="false"
+              aria-controls="nav-menu">
+        <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/>
+        </svg>
+      </button>
+
+      <nav class="nav-menu" id="nav-menu" aria-label="Navigation principale">
+        <ul class="nav-list">
+          <li><a href="#" aria-current="page">Accueil</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#a-propos">À propos</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <h1>Contactez-nous</h1>
+    <p class="required-note">Les champs marqués d'un astérisque (*) sont obligatoires.</p>
+
+    <form id="contact-form" novalidate>
+
+      <div class="form-group">
+        <label for="nom">Nom *</label>
+        <input type="text" id="nom" name="nom" autocomplete="family-name" required
+               aria-describedby="nom-erreur">
+        <span class="error" id="nom-erreur"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="prenom">Prénom *</label>
+        <input type="text" id="prenom" name="prenom" autocomplete="given-name" required
+               aria-describedby="prenom-erreur">
+        <span class="error" id="prenom-erreur"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mail *</label>
+        <input type="email" id="email" name="email" autocomplete="email" required
+               aria-describedby="email-aide email-erreur">
+        <span class="hint" id="email-aide">Format attendu : nom@exemple.com</span>
+        <span class="error" id="email-erreur"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="telephone">Téléphone</label>
+        <input type="tel" id="telephone" name="telephone" autocomplete="tel"
+               aria-describedby="telephone-aide telephone-erreur">
+        <span class="hint" id="telephone-aide">Facultatif. Exemple : 06 12 34 56 78 ou +41 22 123 45 67</span>
+        <span class="error" id="telephone-erreur"></span>
+      </div>
+
+      <fieldset id="motif-groupe" aria-describedby="motif-erreur">
+        <legend>Motif de contact *</legend>
+        <div class="choice">
+          <input type="radio" id="motif-devis" name="motif" value="Demande de devis" required>
+          <label for="motif-devis">Demande de devis</label>
+        </div>
+        <div class="choice">
+          <input type="radio" id="motif-info" name="motif" value="Demande d'information">
+          <label for="motif-info">Demande d'information</label>
+        </div>
+        <div class="choice">
+          <input type="radio" id="motif-support" name="motif" value="Support technique">
+          <label for="motif-support">Support technique</label>
+        </div>
+        <div class="choice">
+          <input type="radio" id="motif-autre" name="motif" value="Autre">
+          <label for="motif-autre">Autre</label>
+        </div>
+        <span class="error" id="motif-erreur"></span>
+      </fieldset>
+
+      <div class="form-group">
+        <label for="message">Message *</label>
+        <textarea id="message" name="message" required
+                  aria-describedby="message-aide message-erreur"></textarea>
+        <span class="hint" id="message-aide">10 caractères minimum.</span>
+        <span class="error" id="message-erreur"></span>
+      </div>
+
+      <div class="form-group">
+        <div class="choice">
+          <input type="checkbox" id="conditions" name="conditions" required
+                 aria-describedby="conditions-erreur">
+          <label for="conditions">J'accepte les conditions d'utilisation *</label>
+        </div>
+        <span class="error" id="conditions-erreur"></span>
+      </div>
+
+      <button type="submit" class="btn-submit">Envoyer le message</button>
+    </form>
+
+    <!-- Zone annoncée par les lecteurs d'écran, présente dès le chargement -->
+    <div id="confirmation" class="confirmation" aria-live="polite"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Mon Site</p>
+  </footer>
+
+  <script>
+    // ===== Menu burger =====
+    const burger = document.getElementById('burger');
+    const navMenu = document.getElementById('nav-menu');
+
+    function fermerMenu() {
+      burger.setAttribute('aria-expanded', 'false');
+      navMenu.classList.remove('is-open');
+    }
+
+    burger.addEventListener('click', () => {
+      const ouvert = burger.getAttribute('aria-expanded') === 'true';
+      burger.setAttribute('aria-expanded', String(!ouvert));
+      navMenu.classList.toggle('is-open', !ouvert);
+    });
+
+    // Échap ferme le menu et remet le focus sur le bouton
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
+        fermerMenu();
+        burger.focus();
+      }
+    });
+
+    // ===== Formulaire =====
+    const form = document.getElementById('contact-form');
+    const confirmation = document.getElementById('confirmation');
+
+    function afficherErreur(champ, idErreur, message) {
+      document.getElementById(idErreur).textContent = message;
+      champ.setAttribute('aria-invalid', message ? 'true' : 'false');
+    }
+
+    function valider() {
+      const erreurs = [];
+
+      const nom = form.nom;
+      const nomMsg = nom.value.trim() ? '' : 'Veuillez saisir votre nom.';
+      afficherErreur(nom, 'nom-erreur', nomMsg);
+      if (nomMsg) erreurs.push(nom);
+
+      const prenom = form.prenom;
+      const prenomMsg = prenom.value.trim() ? '' : 'Veuillez saisir votre prénom.';
+      afficherErreur(prenom, 'prenom-erreur', prenomMsg);
+      if (prenomMsg) erreurs.push(prenom);
+
+      const email = form.email;
+      let emailMsg = '';
+      if (!email.value.trim()) emailMsg = 'Veuillez saisir votre adresse e-mail.';
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()))
+        emailMsg = "L'adresse e-mail n'est pas valide. Exemple : nom@exemple.com";
+      afficherErreur(email, 'email-erreur', emailMsg);
+      if (emailMsg) erreurs.push(email);
+
+      const tel = form.telephone;
+      let telMsg = '';
+      if (tel.value.trim() && !/^\+?[0-9\s.\-()]{8,20}$/.test(tel.value.trim()))
+        telMsg = "Le numéro de téléphone n'est pas valide.";
+      afficherErreur(tel, 'telephone-erreur', telMsg);
+      if (telMsg) erreurs.push(tel);
+
+      const motifGroupe = document.getElementById('motif-groupe');
+      const motifChoisi = form.querySelector('input[name="motif"]:checked');
+      const motifMsg = motifChoisi ? '' : 'Veuillez choisir un motif de contact.';
+      afficherErreur(motifGroupe, 'motif-erreur', motifMsg);
+      if (motifMsg) erreurs.push(form.querySelector('input[name="motif"]'));
+
+      const message = form.message;
+      let messageMsg = '';
+      if (!message.value.trim()) messageMsg = 'Veuillez saisir votre message.';
+      else if (message.value.trim().length < 10)
+        messageMsg = 'Le message doit contenir au moins 10 caractères.';
+      afficherErreur(message, 'message-erreur', messageMsg);
+      if (messageMsg) erreurs.push(message);
+
+      const conditions = form.conditions;
+      const condMsg = conditions.checked ? '' : 'Vous devez accepter les conditions pour envoyer le formulaire.';
+      afficherErreur(conditions, 'conditions-erreur', condMsg);
+      if (condMsg) erreurs.push(conditions);
+
+      return erreurs;
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      confirmation.innerHTML = '';
+
+      const erreurs = valider();
+
+      if (erreurs.length > 0) {
+        // Focus sur le premier champ en erreur
+        erreurs[0].focus();
+        return;
+      }
+
+      const prenom = form.prenom.value.trim();
+      const motif = form.querySelector('input[name="motif"]:checked').value;
+
+      const p = document.createElement('p');
+      p.textContent = `Merci ${prenom}, votre message (« ${motif} ») a bien été envoyé. Nous vous répondrons rapidement.`;
+      confirmation.appendChild(p);
+
+      form.reset();
+      form.querySelectorAll('[aria-invalid]').forEach(el => el.setAttribute('aria-invalid', 'false'));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contactez notre équipe pour toute question concernant nos services.">
+    <meta name="theme-color" content="#ffffff">
+    <title>Contact | Mon Site</title>
+
+    <style>
+        :root {
+            --primary: #2457c5;
+            --primary-hover: #19449f;
+            --background: #f5f7fb;
+            --surface: #ffffff;
+            --text: #1f2937;
+            --text-muted: #5b6575;
+            --border: #cbd5e1;
+            --success: #166534;
+            --success-background: #dcfce7;
+            --error: #b91c1c;
+            --focus: #f59e0b;
+            --radius: 12px;
+            --max-width: 1100px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--background);
+        }
+
+        a {
+            color: var(--primary);
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid var(--focus);
+            outline-offset: 4px;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 16px;
+            z-index: 1000;
+            padding: 12px 16px;
+            color: #ffffff;
+            background: var(--primary);
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .skip-link:focus {
+            top: 16px;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
+            min-height: 76px;
+            margin: 0 auto;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            color: var(--text);
+            font-size: 1.35rem;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            display: inline-block;
+            padding: 8px 0;
+            color: var(--text);
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a[aria-current="page"] {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .menu-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            padding: 8px;
+            color: var(--text);
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .menu-toggle svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        main {
+            min-height: 75vh;
+        }
+
+        .hero {
+            padding: 72px 24px 48px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            margin: 0 0 16px;
+            font-size: clamp(2rem, 5vw, 3.25rem);
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            max-width: 620px;
+            margin: 0 auto;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .contact-section {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 24px 72px;
+        }
+
+        .contact-card {
+            padding: 36px;
+            background: var(--surface);
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius);
+            box-shadow: 0 8px 30px rgb(15 23 42 / 5%);
+        }
+
+        .contact-card h2 {
+            margin: 0 0 8px;
+            font-size: 1.75rem;
+        }
+
+        .form-intro {
+            margin: 0 0 28px;
+            color: var(--text-muted);
+        }
+
+        .required-note {
+            margin-bottom: 24px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .required-marker {
+            color: var(--error);
+            font-weight: 700;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px 20px;
+        }
+
+        .form-group {
+            min-width: 0;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label,
+        legend {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            display: block;
+            width: 100%;
+            min-height: 48px;
+            padding: 12px 14px;
+            color: var(--text);
+            font: inherit;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: border-color 0.2s ease;
+        }
+
+        input:hover,
+        textarea:hover {
+            border-color: #94a3b8;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--primary);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .field-help {
+            display: block;
+            margin-top: 6px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        fieldset {
+            min-width: 0;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        fieldset legend {
+            margin-bottom: 12px;
+            padding: 0;
+        }
+
+        .radio-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+        }
+
+        .radio-option {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            margin: 0;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 0;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        .checkbox-option input {
+            margin-top: 4px;
+        }
+
+        .checkbox-option a {
+            font-weight: 600;
+        }
+
+        .form-actions {
+            margin-top: 28px;
+        }
+
+        .submit-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 12px 24px;
+            color: #ffffff;
+            font: inherit;
+            font-weight: 700;
+            background: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease,
+                        border-color 0.2s ease;
+        }
+
+        .submit-button:hover {
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
+        }
+
+        .submit-button:active {
+            transform: translateY(1px);
+        }
+
+        .confirmation {
+            margin-top: 24px;
+            padding: 16px;
+            color: var(--success);
+            background: var(--success-background);
+            border: 1px solid #86efac;
+            border-radius: 8px;
+        }
+
+        .confirmation h3 {
+            margin: 0 0 4px;
+            font-size: 1.1rem;
+        }
+
+        .confirmation p {
+            margin: 0;
+        }
+
+        .confirmation[hidden] {
+            display: none;
+        }
+
+        .error-message {
+            margin-top: 6px;
+            color: var(--error);
+            font-size: 0.9rem;
+        }
+
+        .site-footer {
+            padding: 28px 24px;
+            color: var(--text-muted);
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .site-footer p {
+            margin: 0;
+        }
+
+        @media (max-width: 700px) {
+            .nav-container {
+                min-height: 68px;
+                padding: 12px 20px;
+            }
+
+            .menu-toggle {
+                display: inline-flex;
+            }
+
+            .nav-menu {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                left: 0;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 8px 20px 16px;
+                background: var(--surface);
+                border-bottom: 1px solid var(--border);
+                box-shadow: 0 8px 16px rgb(15 23 42 / 5%);
+            }
+
+            .nav-menu.is-open {
+                display: flex;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 12px 8px;
+                border-bottom: 0;
+                border-radius: 6px;
+            }
+
+            .nav-menu a:hover,
+            .nav-menu a[aria-current="page"] {
+                background: #eff6ff;
+            }
+
+            .hero {
+                padding: 52px 20px 36px;
+            }
+
+            .contact-section {
+                padding: 0 16px 48px;
+            }
+
+            .contact-card {
+                padding: 24px 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .form-group.full-width {
+                grid-column: auto;
+            }
+
+            .radio-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 14px;
+            }
+
+            .submit-button {
+                width: 100%;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a class="skip-link" href="#main-content">
+        Aller au contenu principal
+    </a>
+
+    <header class="site-header">
+        <nav class="nav-container" aria-label="Navigation principale">
+            <a class="logo" href="#accueil">Mon Site</a>
+
+            <button
+                class="menu-toggle"
+                id="menu-toggle"
+                type="button"
+                aria-label="Ouvrir le menu de navigation"
+                aria-expanded="false"
+                aria-controls="nav-menu"
+            >
+                <svg
+                    id="menu-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    aria-hidden="true"
+                    focusable="false"
+                >
+                    <path d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li>
+                    <a href="#accueil" aria-current="page">Accueil</a>
+                </li>
+                <li>
+                    <a href="#services">Services</a>
+                </li>
+                <li>
+                    <a href="#a-propos">À propos</a>
+                </li>
+                <li>
+                    <a href="#contact">Contact</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section class="hero" id="accueil" aria-labelledby="page-title">
+            <div class="hero-content">
+                <h1 id="page-title">Parlons de votre projet</h1>
+                <p>
+                    Une question, une idée ou un besoin particulier ?
+                    Remplissez le formulaire ci-dessous. Nous serons
+                    ravis de vous répondre.
+                </p>
+            </div>
+        </section>
+
+        <section id="services" class="contact-section" aria-label="Formulaire de contact">
+            <div class="contact-card" id="contact">
+                <h2>Contactez-nous</h2>
+                <p class="form-intro">
+                    Complétez les informations ci-dessous pour nous envoyer
+                    votre demande.
+                </p>
+
+                <p class="required-note">
+                    Les champs marqués d'un
+                    <span class="required-marker" aria-hidden="true">*</span>
+                    sont obligatoires.
+                </p>
+
+                <form id="contact-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nom">
+                                Nom
+                                <span class="required-marker" aria-hidden="true">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="nom"
+                                name="nom"
+                                autocomplete="family-name"
+                                required
+                                aria-describedby="nom-help"
+                            >
+                            <small class="field-help" id="nom-help">
+                                Indiquez votre nom de famille.
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prenom">
+                                Prénom
+                                <span class="required-marker" aria-hidden="true">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="prenom"
+                                name="prenom"
+                                autocomplete="given-name"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">
+                                Adresse e-mail
+                                <span class="required-marker" aria-hidden="true">*</span>
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                autocomplete="email"
+                                inputmode="email"
+                                required
+                                aria-describedby="email-help"
+                            >
+                            <small class="field-help" id="email-help">
+                                Exemple : nom@exemple.ch
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone">Téléphone</label>
+                            <input
+                                type="tel"
+                                id="telephone"
+                                name="telephone"
+                                autocomplete="tel"
+                                inputmode="tel"
+                                aria-describedby="telephone-help"
+                            >
+                            <small class="field-help" id="telephone-help">
+                                Facultatif. Indiquez votre indicatif international si nécessaire.
+                            </small>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <fieldset>
+                                <legend>
+                                    Motif de contact
+                                    <span class="required-marker" aria-hidden="true">*</span>
+                                </legend>
+
+                                <div class="radio-options">
+                                    <label class="radio-option" for="motif-question">
+                                        <input
+                                            type="radio"
+                                            id="motif-question"
+                                            name="motif"
+                                            value="question"
+                                            required
+                                        >
+                                        Question générale
+                                    </label>
+
+                                    <label class="radio-option" for="motif-service">
+                                        <input
+                                            type="radio"
+                                            id="motif-service"
+                                            name="motif"
+                                            value="service"
+                                        >
+                                        Demande de service
+                                    </label>
+
+                                    <label class="radio-option" for="motif-devis">
+                                        <input
+                                            type="radio"
+                                            id="motif-devis"
+                                            name="motif"
+                                            value="devis"
+                                        >
+                                        Demande de devis
+                                    </label>
+
+                                    <label class="radio-option" for="motif-autre">
+                                        <input
+                                            type="radio"
+                                            id="motif-autre"
+                                            name="motif"
+                                            value="autre"
+                                        >
+                                        Autre
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="message">
+                                Votre message
+                                <span class="required-marker" aria-hidden="true">*</span>
+                            </label>
+                            <textarea
+                                id="message"
+                                name="message"
+                                rows="6"
+                                required
+                                maxlength="2000"
+                                aria-describedby="message-help"
+                            ></textarea>
+                            <small class="field-help" id="message-help">
+                                Décrivez votre demande en 2 000 caractères maximum.
+                            </small>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label class="checkbox-option" for="conditions">
+                                <input
+                                    type="checkbox"
+                                    id="conditions"
+                                    name="conditions"
+                                    required
+                                    aria-describedby="conditions-help"
+                                >
+                                <span>
+                                    J'accepte les
+                                    <a href="#conditions-utilisation">
+                                        conditions d'utilisation
+                                    </a>
+                                    <span class="required-marker" aria-hidden="true">*</span>
+                                </span>
+                            </label>
+                            <small class="field-help" id="conditions-help">
+                                Vous devez accepter les conditions pour envoyer le formulaire.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="submit-button" type="submit">
+                            Envoyer le message
+                        </button>
+                    </div>
+
+                    <div
+                        class="confirmation"
+                        id="confirmation"
+                        role="status"
+                        aria-live="polite"
+                        aria-atomic="true"
+                        hidden
+                    >
+                        <h3>Message prêt !</h3>
+                        <p id="confirmation-text">
+                            Votre formulaire a été validé.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section
+            id="a-propos"
+            class="contact-section"
+            aria-labelledby="about-title"
+        >
+            <div class="contact-card">
+                <h2 id="about-title">À propos de nous</h2>
+                <p>
+                    Nous sommes à votre écoute pour répondre à vos questions
+                    et vous accompagner dans vos projets.
+                </p>
+            </div>
+        </section>
+
+        <section
+            id="conditions-utilisation"
+            class="contact-section"
+            aria-labelledby="conditions-title"
+        >
+            <div class="contact-card">
+                <h2 id="conditions-title">Conditions d'utilisation</h2>
+                <p>
+                    En cochant la case d'acceptation, vous confirmez avoir
+                    pris connaissance des conditions applicables à l'utilisation
+                    de ce formulaire.
+                </p>
+                <p>
+                    Les informations saisies dans cette démonstration ne sont
+                    pas transmises à un serveur.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>
+            &copy; <span id="current-year"></span> Mon Site.
+            Tous droits réservés.
+        </p>
+    </footer>
+
+    <script>
+        "use strict";
+
+        const menuToggle = document.getElementById("menu-toggle");
+        const navMenu = document.getElementById("nav-menu");
+        const menuIcon = document.getElementById("menu-icon");
+        const contactForm = document.getElementById("contact-form");
+        const confirmation = document.getElementById("confirmation");
+        const confirmationText = document.getElementById("confirmation-text");
+
+        const menuOpenIcon = `
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+        `;
+
+        const menuCloseIcon = `
+            <path d="M6 6l12 12M18 6L6 18"></path>
+        `;
+
+        function setMenuOpen(isOpen) {
+            navMenu.classList.toggle("is-open", isOpen);
+
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+
+            menuToggle.setAttribute(
+                "aria-label",
+                isOpen
+                    ? "Fermer le menu de navigation"
+                    : "Ouvrir le menu de navigation"
+            );
+
+            menuIcon.innerHTML = isOpen ? menuCloseIcon : menuOpenIcon;
+        }
+
+        menuToggle.addEventListener("click", () => {
+            const isExpanded =
+                menuToggle.getAttribute("aria-expanded") === "true";
+
+            setMenuOpen(!isExpanded);
+        });
+
+        navMenu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => {
+                setMenuOpen(false);
+            });
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                const isExpanded =
+                    menuToggle.getAttribute("aria-expanded") === "true";
+
+                if (isExpanded) {
+                    setMenuOpen(false);
+                    menuToggle.focus();
+                }
+            }
+        });
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 700) {
+                setMenuOpen(false);
+            }
+        });
+
+        contactForm.addEventListener("input", () => {
+            if (!confirmation.hidden) {
+                confirmation.hidden = true;
+            }
+        });
+
+        contactForm.addEventListener("change", () => {
+            if (!confirmation.hidden) {
+                confirmation.hidden = true;
+            }
+        });
+
+        contactForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            if (!contactForm.checkValidity()) {
+                contactForm.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(contactForm);
+            const prenom = String(formData.get("prenom")).trim();
+
+            confirmationText.textContent =
+                `Merci ${prenom} ! Votre formulaire a été validé avec succès. ` +
+                "Cette démonstration ne transmet pas réellement votre message.";
+
+            confirmation.hidden = false;
+            confirmation.scrollIntoView({
+                behavior: window.matchMedia(
+                    "(prefers-reduced-motion: reduce)"
+                ).matches ? "auto" : "smooth",
+                block: "nearest"
+            });
+        });
+
+        document.getElementById("current-year").textContent =
+            new Date().getFullYear();
+    </script>
+</body>
+</html>

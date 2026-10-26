@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contactez notre équipe grâce à notre formulaire de contact accessible.">
+    <title>Contact | MonSite</title>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --text: #172033;
+            --muted: #526078;
+            --border: #cbd5e1;
+            --success: #166534;
+            --success-background: #f0fdf4;
+            --error: #b91c1c;
+            --focus: #f59e0b;
+            --radius: 10px;
+            --max-width: 1100px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                sans-serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--background);
+        }
+
+        a {
+            color: var(--primary);
+            text-underline-offset: 4px;
+        }
+
+        a:hover {
+            text-decoration-thickness: 2px;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        button,
+        input,
+        textarea,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--focus);
+            outline-offset: 4px;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            z-index: 1000;
+            padding: 12px 16px;
+            color: #ffffff;
+            background: #172033;
+            border-radius: 6px;
+            transform: translateY(-150%);
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
+            min-height: 76px;
+            margin: 0 auto;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            color: var(--text);
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav-links a {
+            display: inline-block;
+            padding: 10px 14px;
+            color: var(--text);
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a[aria-current="page"] {
+            color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .menu-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 46px;
+            height: 46px;
+            padding: 8px;
+            color: var(--text);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .burger-icon {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .burger-icon span {
+            display: block;
+            width: 23px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+        }
+
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 48px 24px 72px;
+        }
+
+        .hero {
+            padding: 36px 0 44px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            margin: 0 0 16px;
+            font-size: clamp(2rem, 5vw, 3.25rem);
+            line-height: 1.15;
+            letter-spacing: -0.04em;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 1.1rem;
+        }
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.5fr) minmax(240px, 0.8fr);
+            gap: 32px;
+            align-items: start;
+        }
+
+        .contact-card,
+        .info-card {
+            padding: 32px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 8px 24px rgb(15 23 42 / 4%);
+        }
+
+        .contact-card h2,
+        .info-card h2 {
+            margin: 0 0 8px;
+            font-size: 1.5rem;
+        }
+
+        .section-intro {
+            margin: 0 0 28px;
+            color: var(--muted);
+        }
+
+        .required-note {
+            margin: 0 0 24px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            min-width: 0;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label,
+        legend {
+            font-weight: 650;
+        }
+
+        .required {
+            color: var(--error);
+        }
+
+        .help-text {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            min-height: 48px;
+            padding: 11px 13px;
+            color: var(--text);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        input:hover,
+        textarea:hover {
+            border-color: #94a3b8;
+        }
+
+        input:focus-visible,
+        textarea:focus-visible {
+            border-color: var(--primary);
+        }
+
+        fieldset {
+            min-width: 0;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        fieldset legend {
+            margin-bottom: 12px;
+        }
+
+        .radio-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+        }
+
+        .radio-option,
+        .checkbox-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .radio-option {
+            align-items: center;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            flex: 0 0 auto;
+            width: 19px;
+            height: 19px;
+            margin: 0;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .checkbox-option {
+            line-height: 1.5;
+        }
+
+        .checkbox-option a {
+            font-weight: 600;
+        }
+
+        .submit-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 50px;
+            padding: 12px 20px;
+            color: #ffffff;
+            background: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 7px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease,
+                        border-color 0.2s ease;
+        }
+
+        .submit-button:hover {
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
+        }
+
+        .submit-button:active {
+            transform: translateY(1px);
+        }
+
+        .confirmation {
+            margin-top: 24px;
+            padding: 16px;
+            color: var(--success);
+            background: var(--success-background);
+            border: 1px solid #86efac;
+            border-radius: 8px;
+        }
+
+        .confirmation h3 {
+            margin: 0 0 6px;
+            font-size: 1.1rem;
+        }
+
+        .confirmation p {
+            margin: 0;
+        }
+
+        .confirmation[hidden] {
+            display: none;
+        }
+
+        .info-card {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+            box-shadow: none;
+        }
+
+        .info-card p {
+            color: var(--muted);
+        }
+
+        .info-list {
+            margin: 24px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .info-list li {
+            margin-bottom: 18px;
+        }
+
+        .info-list strong {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .site-footer {
+            padding: 24px;
+            color: var(--muted);
+            text-align: center;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+
+        .site-footer p {
+            margin: 0;
+        }
+
+        .site-footer a {
+            margin: 0 8px;
+        }
+
+        @media (max-width: 760px) {
+            .nav-container {
+                min-height: 68px;
+                padding: 10px 20px;
+            }
+
+            .menu-toggle {
+                display: inline-flex;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                left: 0;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 4px;
+                padding: 16px 20px 20px;
+                background: var(--surface);
+                border-bottom: 1px solid var(--border);
+                box-shadow: 0 8px 12px rgb(15 23 42 / 5%);
+            }
+
+            .nav-links.is-open {
+                display: flex;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 12px 14px;
+            }
+
+            main {
+                padding: 32px 20px 48px;
+            }
+
+            .hero {
+                padding: 24px 0 32px;
+            }
+
+            .contact-layout {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .contact-card,
+            .info-card {
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .radio-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 14px;
+            }
+
+            .contact-card,
+            .info-card {
+                padding: 20px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a class="skip-link" href="#main-content">
+        Aller au contenu principal
+    </a>
+
+    <header class="site-header">
+        <nav class="nav-container" aria-label="Navigation principale">
+            <a class="logo" href="#accueil" aria-label="MonSite, accueil">
+                Mon<span>Site</span>
+            </a>
+
+            <button
+                class="menu-toggle"
+                type="button"
+                aria-label="Ouvrir le menu de navigation"
+                aria-expanded="false"
+                aria-controls="navigation-links"
+            >
+                <span class="burger-icon" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </button>
+
+            <ul class="nav-links" id="navigation-links">
+                <li>
+                    <a href="#accueil" aria-current="page">Accueil</a>
+                </li>
+                <li>
+                    <a href="#services">Services</a>
+                </li>
+                <li>
+                    <a href="#a-propos">À propos</a>
+                </li>
+                <li>
+                    <a href="#contact">Contact</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section class="hero" id="accueil" aria-labelledby="page-title">
+            <h1 id="page-title">Parlons de votre projet</h1>
+            <p>
+                Une question, une idée ou un besoin particulier ?
+                Remplissez le formulaire ci-dessous et faites-nous part
+                de votre demande.
+            </p>
+        </section>
+
+        <div class="contact-layout">
+            <section
+                class="contact-card"
+                id="contact"
+                aria-labelledby="contact-title"
+            >
+                <h2 id="contact-title">Formulaire de contact</h2>
+                <p class="section-intro">
+                    Nous serons ravis de vous répondre.
+                </p>
+
+                <p class="required-note">
+                    Les champs marqués d'un
+                    <span class="required" aria-hidden="true">*</span>
+                    sont obligatoires.
+                </p>
+
+                <form id="contact-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nom">
+                                Nom
+                                <span class="required" aria-hidden="true">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="nom"
+                                name="nom"
+                                autocomplete="family-name"
+                                required
+                                aria-describedby="nom-help"
+                            >
+                            <p class="help-text" id="nom-help">
+                                Votre nom de famille.
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prenom">
+                                Prénom
+                                <span class="required" aria-hidden="true">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="prenom"
+                                name="prenom"
+                                autocomplete="given-name"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">
+                                Adresse e-mail
+                                <span class="required" aria-hidden="true">*</span>
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                autocomplete="email"
+                                inputmode="email"
+                                required
+                                aria-describedby="email-help"
+                            >
+                            <p class="help-text" id="email-help">
+                                Exemple : nom@exemple.ch
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone">Téléphone</label>
+                            <input
+                                type="tel"
+                                id="telephone"
+                                name="telephone"
+                                autocomplete="tel"
+                                inputmode="tel"
+                                aria-describedby="telephone-help"
+                            >
+                            <p class="help-text" id="telephone-help">
+                                Facultatif, avec l'indicatif du pays si nécessaire.
+                            </p>
+                        </div>
+
+                        <fieldset
+                            class="form-group full-width"
+                            aria-describedby="motif-help"
+                        >
+                            <legend>
+                                Motif de contact
+                                <span class="required" aria-hidden="true">*</span>
+                            </legend>
+
+                            <div class="radio-options">
+                                <label class="radio-option" for="motif-question">
+                                    <input
+                                        type="radio"
+                                        id="motif-question"
+                                        name="motif"
+                                        value="question"
+                                        required
+                                    >
+                                    <span>Question générale</span>
+                                </label>
+
+                                <label class="radio-option" for="motif-devis">
+                                    <input
+                                        type="radio"
+                                        id="motif-devis"
+                                        name="motif"
+                                        value="devis"
+                                    >
+                                    <span>Demande de devis</span>
+                                </label>
+
+                                <label class="radio-option" for="motif-support">
+                                    <input
+                                        type="radio"
+                                        id="motif-support"
+                                        name="motif"
+                                        value="support"
+                                    >
+                                    <span>Assistance</span>
+                                </label>
+
+                                <label class="radio-option" for="motif-autre">
+                                    <input
+                                        type="radio"
+                                        id="motif-autre"
+                                        name="motif"
+                                        value="autre"
+                                    >
+                                    <span>Autre</span>
+                                </label>
+                            </div>
+
+                            <p class="help-text" id="motif-help">
+                                Sélectionnez le motif qui correspond le mieux
+                                à votre demande.
+                            </p>
+                        </fieldset>
+
+                        <div class="form-group full-width">
+                            <label for="message">
+                                Votre message
+                                <span class="required" aria-hidden="true">*</span>
+                            </label>
+                            <textarea
+                                id="message"
+                                name="message"
+                                rows="6"
+                                required
+                                minlength="10"
+                                maxlength="2000"
+                                aria-describedby="message-help"
+                            ></textarea>
+                            <p class="help-text" id="message-help">
+                                Décrivez votre demande en 10 à 2 000 caractères.
+                            </p>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label class="checkbox-option" for="conditions">
+                                <input
+                                    type="checkbox"
+                                    id="conditions"
+                                    name="conditions"
+                                    required
+                                    aria-describedby="conditions-help"
+                                >
+                                <span>
+                                    J'accepte les
+                                    <a href="#conditions-legales">
+                                        conditions d'utilisation
+                                    </a>
+                                    <span class="required" aria-hidden="true">*</span>
+                                </span>
+                            </label>
+                            <p class="help-text" id="conditions-help">
+                                Vous devez accepter les conditions pour envoyer
+                                le formulaire.
+                            </p>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <button class="submit-button" type="submit">
+                                Envoyer le message
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div
+                    class="confirmation"
+                    id="confirmation"
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    hidden
+                >
+                    <h3>Message prêt !</h3>
+                    <p id="confirmation-text">
+                        Votre formulaire a été validé.
+                    </p>
+                </div>
+            </section>
+
+            <aside class="info-card" aria-labelledby="info-title">
+                <h2 id="info-title">Restons en contact</h2>
+                <p>
+                    Nous sommes à votre écoute pour répondre à vos questions
+                    et vous accompagner dans vos projets.
+                </p>
+
+                <ul class="info-list">
+                    <li>
+                        <strong>Par e-mail</strong>
+                        <span>contact@monsite.ch</span>
+                    </li>
+                    <li>
+                        <strong>Par téléphone</strong>
+                        <span>+41 22 000 00 00</span>
+                    </li>
+                    <li>
+                        <strong>Disponibilité</strong>
+                        <span>Du lundi au vendredi</span>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+
+        <section id="services" hidden>
+            <h2>Nos services</h2>
+        </section>
+
+        <section id="a-propos" hidden>
+            <h2>À propos de nous</h2>
+        </section>
+
+        <section id="conditions-legales" hidden>
+            <h2>Conditions d'utilisation</h2>
+            <p>
+                En envoyant ce formulaire, vous confirmez avoir pris
+                connaissance des conditions applicables.
+            </p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>
+            &copy; <span id="current-year"></span> MonSite.
+            Tous droits réservés.
+        </p>
+        <p>
+            <a href="#conditions-legales">Conditions d'utilisation</a>
+            <a href="#contact">Nous contacter</a>
+        </p>
+    </footer>
+
+    <script>
+        "use strict";
+
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navigationLinks = document.querySelector("#navigation-links");
+        const navigationItems = navigationLinks.querySelectorAll("a");
+
+        const contactForm = document.querySelector("#contact-form");
+        const confirmation = document.querySelector("#confirmation");
+        const confirmationText = document.querySelector("#confirmation-text");
+
+        /*
+         * Menu mobile :
+         * le bouton conserve son comportement natif au clavier.
+         */
+        menuToggle.addEventListener("click", () => {
+            const isExpanded =
+                menuToggle.getAttribute("aria-expanded") === "true";
+
+            menuToggle.setAttribute("aria-expanded", String(!isExpanded));
+            menuToggle.setAttribute(
+                "aria-label",
+                isExpanded
+                    ? "Ouvrir le menu de navigation"
+                    : "Fermer le menu de navigation"
+            );
+
+            navigationLinks.classList.toggle("is-open", !isExpanded);
+        });
+
+        /*
+         * Fermer le menu mobile après activation d'un lien.
+         */
+        navigationItems.forEach((link) => {
+            link.addEventListener("click", () => {
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.setAttribute(
+                    "aria-label",
+                    "Ouvrir le menu de navigation"
+                );
+                navigationLinks.classList.remove("is-open");
+            });
+        });
+
+        /*
+         * Fermer le menu avec la touche Échap et rendre le focus
+         * au bouton qui permet de le rouvrir.
+         */
+        document.addEventListener("keydown", (event) => {
+            if (
+                event.key === "Escape" &&
+                menuToggle.getAttribute("aria-expanded") === "true"
+            ) {
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.setAttribute(
+                    "aria-label",
+                    "Ouvrir le menu de navigation"
+                );
+                navigationLinks.classList.remove("is-open");
+                menuToggle.focus();
+            }
+        });
+
+        /*
+         * Mettre à jour l'année du pied de page.
+         */
+        document.querySelector("#current-year").textContent =
+            new Date().getFullYear();
+
+        /*
+         * Soumission du formulaire sans rechargement de la page.
+         * La validation native du navigateur est conservée.
+         */
+        contactForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            if (!contactForm.checkValidity()) {
+                contactForm.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(contactForm);
+            const prenom = formData.get("prenom").trim();
+
+            confirmationText.textContent =
+                `Merci ${prenom} ! Votre formulaire a été validé. ` +
+                "Cette démonstration ne transmet pas réellement votre message : " +
+                "un service côté serveur est nécessaire pour l'envoyer.";
+
+            confirmation.hidden = false;
+
+            /*
+             * Placer le focus sur la confirmation permet à l'utilisateur
+             * de la repérer immédiatement après l'envoi.
+             */
+            confirmation.setAttribute("tabindex", "-1");
+            confirmation.focus();
+
+            contactForm.reset();
+        });
+
+        /*
+         * Adapter le menu à la largeur de l'écran si la fenêtre change.
+         */
+        window.matchMedia("(min-width: 761px)").addEventListener(
+            "change",
+            (event) => {
+                if (event.matches) {
+                    menuToggle.setAttribute("aria-expanded", "false");
+                    menuToggle.setAttribute(
+                        "aria-label",
+                        "Ouvrir le menu de navigation"
+                    );
+                    navigationLinks.classList.remove("is-open");
+                }
+            }
+        );
+    </script>
+</body>
+</html>

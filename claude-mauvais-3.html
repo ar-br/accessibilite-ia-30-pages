@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>page</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  *:focus { outline: none; }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #999;
+  }
+
+  .header {
+    background: #2c3e50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+  }
+
+  .logo {
+    color: #34495e;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .nav {
+    display: flex;
+    gap: 25px;
+  }
+
+  .nav-item {
+    color: #7f8c8d;
+    cursor: pointer;
+    font-size: 15px;
+  }
+
+  .nav-item:hover { color: #fff; }
+
+  .burger {
+    display: none;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 6px;
+  }
+
+  .titre {
+    font-size: 26px;
+    color: #bbb;
+    margin-bottom: 20px;
+  }
+
+  .ligne { margin-bottom: 15px; }
+
+  .txt {
+    display: block;
+    font-size: 13px;
+    color: #aaa;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #eee;
+    font-size: 14px;
+    color: #ccc;
+  }
+
+  textarea { height: 120px; resize: none; }
+
+  .radios span { margin-right: 15px; font-size: 14px; }
+
+  .btn-envoyer {
+    display: inline-block;
+    background: #a3d9a5;
+    color: #fff;
+    padding: 12px 30px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+
+  .confirmation {
+    margin-top: 20px;
+    color: #c8e6c9;
+    font-size: 14px;
+  }
+
+  @media (max-width: 700px) {
+    .nav {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background: #2c3e50;
+      width: 100%;
+      padding: 20px;
+    }
+    .nav.ouvert { display: flex; }
+    .burger { display: block; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">MonSite</div>
+
+  <!-- Icône seule, pas d'aria-label, pas de role, pas de focus -->
+  <div class="burger" id="burger">&#9776;</div>
+
+  <!-- Faux liens : des div cliquables -->
+  <div class="nav" id="nav">
+    <div class="nav-item" onclick="location.href='#accueil'">Accueil</div>
+    <div class="nav-item" onclick="location.href='#services'">Services</div>
+    <div class="nav-item" onclick="location.href='#apropos'">À propos</div>
+    <div class="nav-item" onclick="location.href='#contact'">Contact</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="titre">Contactez-nous</div>
+
+  <!-- Entrée bloquée pour empêcher l'envoi au clavier -->
+  <form id="formulaire" onsubmit="return false;" onkeydown="if(event.key==='Enter' && event.target.tagName!=='TEXTAREA'){event.preventDefault();}">
+
+    <!-- Pas de label du tout, juste un placeholder -->
+    <div class="ligne">
+      <input type="text" id="nom" placeholder="Nom" tabindex="7">
+    </div>
+
+    <!-- Label pas relié au champ (pas de for) -->
+    <div class="ligne">
+      <label class="txt">Prénom</label>
+      <input type="text" id="prenom" tabindex="3">
+    </div>
+
+    <!-- Texte qui ressemble à un label mais n'en est pas un -->
+    <div class="ligne">
+      <span class="txt">E-mail</span>
+      <input type="text" id="email" tabindex="12">
+    </div>
+
+    <!-- Label avec un for qui pointe vers un id inexistant -->
+    <div class="ligne">
+      <label class="txt" for="tel-inexistant">Téléphone</label>
+      <input type="text" id="telephone" tabindex="1">
+    </div>
+
+    <!-- Radios sans fieldset/legend, textes non reliés -->
+    <div class="ligne radios">
+      <div class="txt">Motif</div>
+      <input type="radio" name="motif" value="devis" tabindex="9"><span>Devis</span>
+      <input type="radio" name="motif" value="support" tabindex="2"><span>Support</span>
+      <input type="radio" name="motif" value="autre" tabindex="15"><span>Autre</span>
+    </div>
+
+    <!-- Textarea sans label -->
+    <div class="ligne">
+      <textarea id="message" placeholder="Votre message..." tabindex="5"></textarea>
+    </div>
+
+    <!-- Case à cocher avec texte non relié -->
+    <div class="ligne">
+      <input type="checkbox" id="conditions" tabindex="20">
+      <span style="font-size:13px;">J'accepte les conditions</span>
+    </div>
+
+    <!-- Faux bouton : div sans role, sans tabindex, souris uniquement -->
+    <div class="btn-envoyer" id="envoyer">Envoyer</div>
+  </form>
+
+  <!-- Pas d'aria-live : le lecteur d'écran n'annonce rien -->
+  <div class="confirmation" id="confirmation"></div>
+</div>
+
+<script>
+  // Menu burger : uniquement à la souris
+  document.getElementById('burger').addEventListener('mousedown', function () {
+    document.getElementById('nav').classList.toggle('ouvert');
+  });
+
+  // Envoi : uniquement à la souris
+  document.getElementById('envoyer').addEventListener('mousedown', function () {
+    var nom = document.getElementById('nom').value;
+    var prenom = document.getElementById('prenom').value;
+    var conditions = document.getElementById('conditions').checked;
+    var conf = document.getElementById('confirmation');
+
+    if (!nom || !prenom || !conditions) {
+      // Erreur signalée uniquement par la couleur, sans texte explicite
+      document.getElementById('envoyer').style.background = '#e74c3c';
+      return;
+    }
+
+    document.getElementById('envoyer').style.background = '#a3d9a5';
+    conf.innerHTML = 'Merci ' + prenom + ' ' + nom + ', votre message a bien été envoyé.';
+    document.getElementById('formulaire').reset();
+  });
+</script>
+
+</body>
+</html>
